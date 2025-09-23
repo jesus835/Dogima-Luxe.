@@ -1208,9 +1208,20 @@ body {
 
 .cart-item-controls {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 10px;
     margin-top: 10px;
+}
+
+.cart-quantity-display {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
 }
 
 .cart-quantity-controls {

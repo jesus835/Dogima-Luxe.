@@ -478,10 +478,8 @@ function updateCartDisplay() {
                     <i class="fas fa-tag"></i> Cupón: ${item.couponCode} (-${item.discount}%)
                 </div>` : ''}
                 <div class="cart-item-controls">
-                    <div class="cart-quantity-controls">
-                        <button onclick="decreaseCartQuantity(${index})">-</button>
-                        <input type="number" value="${item.quantity}" min="1" onchange="updateCartQuantity(${index}, this.value)">
-                        <button onclick="increaseCartQuantity(${index})">+</button>
+                    <div class="cart-quantity-display">
+                        <span class="quantity-label">Cantidad: ${item.quantity}</span>
                     </div>
                     <button class="btn-remove-item" onclick="removeFromCart(${index})">Eliminar</button>
                 </div>
@@ -1257,14 +1255,18 @@ function applyCoupon() {
 }
 
 // Modificar función updatePrice para incluir descuentos
-let originalUpdatePrice = updatePrice;
-updatePrice = function() {
-    originalUpdatePrice(); // Llamar función original
+function updatePrice() {
+    // Calcular precio unitario basado en cantidad y tipo de producto
+    const quantity = parseInt(document.getElementById('quantityInput').value) || 1;
+    const unitPrice = getUnitPriceFor(quantity, currentProductColor);
+    const total = unitPrice * quantity;
+    
+    // Actualizar elementos del DOM
+    document.getElementById('unitPrice').textContent = `Q${unitPrice}`;
+    document.getElementById('totalPrice').textContent = `Q${total}`;
     
     // Controlar texto "Descuento aplicado" basado en cantidad
-    const quantityInput = document.getElementById('quantityInput');
     const discountAppliedEl = document.getElementById('discountApplied');
-    const quantity = parseInt(quantityInput?.value) || 1;
     
     // Mostrar "Descuento aplicado" según el tipo de producto
     if (discountAppliedEl) {
