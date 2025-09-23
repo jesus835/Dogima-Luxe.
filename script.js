@@ -1,7 +1,29 @@
 // Funcionalidad para los tabs de productos destacados
 document.addEventListener('DOMContentLoaded', function() {
+    // Limpiar datos de prueba solo la primera vez
+    if (!localStorage.getItem('dogimaInitialized')) {
+        localStorage.removeItem('dogimaOrders');
+        localStorage.removeItem('dogimaCartItems');
+        localStorage.removeItem('dailyCoupons');
+        localStorage.removeItem('couponsLastGenerated');
+        
+        // Limpiar cualquier otro dato que pueda existir
+        Object.keys(localStorage).forEach(key => {
+            if (key.startsWith('dogima') || key.includes('order') || key.includes('cart')) {
+                localStorage.removeItem(key);
+            }
+        });
+        
+        // Marcar como inicializado para no limpiar de nuevo
+        localStorage.setItem('dogimaInitialized', 'true');
+    }
+    
     // Cargar carrito desde localStorage al iniciar
     loadCartFromLocalStorage();
+    
+    // Actualizar badges
+    updateCartBadge();
+    updateOrdersBadge();
     // Control para activar/desactivar la sección de "Nuevos Arrivals" (mujeres)
     // Por defecto está oculta vía CSS. Para activarla dinámicamente:
     // setWomenSectionVisible(true)
@@ -18,22 +40,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const cartIcons = document.querySelectorAll('.cart-icon');
     const badges = document.querySelectorAll('.badge');
     
-    // Simular agregar productos al carrito al hacer hover en productos
-    const productItems = document.querySelectorAll('.product-item');
-    
-    productItems.forEach(item => {
-        item.addEventListener('click', function() {
-            // Simular agregar al carrito
-            const currentCount = parseInt(badges[1].textContent);
-            badges[1].textContent = currentCount + 1;
-            
-            // Efecto visual
-            badges[1].style.transform = 'scale(1.2)';
-            setTimeout(() => {
-                badges[1].style.transform = 'scale(1)';
-            }, 200);
-        });
-    });
+    // Los productos ya tienen su propia funcionalidad de clic para abrir modales
     
     // Smooth scroll para navegación
     const navLinks = document.querySelectorAll('.main-nav a');
@@ -496,6 +503,7 @@ function updateCartSummary() {
     let totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
     
     // Contar playeras lisas, oversize y boxfit por separado
+    // Solo contar productos que NO tengan descuento individual ya aplicado
     const playerasLisasCount = cartItems.reduce((sum, item) => {
         const name = (item.name || '').toLowerCase();
         const isOversize = name.includes('oversize');
@@ -503,7 +511,10 @@ function updateCartSummary() {
         
         // Si no es oversize ni boxfit, es playera lisa
         if (!isOversize && !isBoxfit) {
-            return sum + item.quantity;
+            // Solo contar si NO tiene descuento individual aplicado (precio unitario normal)
+            if (item.unitPrice >= 25) { // Precio normal sin descuento
+                return sum + item.quantity;
+            }
         }
         return sum;
     }, 0);
@@ -515,7 +526,10 @@ function updateCartSummary() {
         
         // Si es oversize o boxfit
         if (isOversize || isBoxfit) {
-            return sum + item.quantity;
+            // Solo contar si NO tiene descuento individual aplicado (precio unitario normal)
+            if (item.unitPrice >= 45) { // Precio normal sin descuento
+                return sum + item.quantity;
+            }
         }
         return sum;
     }, 0);
@@ -524,8 +538,8 @@ function updateCartSummary() {
     let descuentoTotal = 0;
     let descuentoTextos = [];
     
-    // Descuento playeras lisas: Q25→Q18 si hay más de 12
-    if (playerasLisasCount > 12) {
+    // Descuento playeras lisas: Q25→Q18 si hay 12 o más
+    if (playerasLisasCount >= 12) {
         const descuentoPorUnidad = 25 - 18; // Q7 de descuento por unidad
         const descuentoAdicional = descuentoPorUnidad * playerasLisasCount;
         descuentoTotal += descuentoAdicional;
@@ -635,6 +649,7 @@ function checkout() {
     let totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
     
     // Contar playeras lisas, oversize y boxfit por separado
+    // Solo contar productos que NO tengan descuento individual ya aplicado
     const playerasLisasCount = cartItems.reduce((sum, item) => {
         const name = (item.name || '').toLowerCase();
         const isOversize = name.includes('oversize');
@@ -642,7 +657,10 @@ function checkout() {
         
         // Si no es oversize ni boxfit, es playera lisa
         if (!isOversize && !isBoxfit) {
-            return sum + item.quantity;
+            // Solo contar si NO tiene descuento individual aplicado (precio unitario normal)
+            if (item.unitPrice >= 25) { // Precio normal sin descuento
+                return sum + item.quantity;
+            }
         }
         return sum;
     }, 0);
@@ -654,7 +672,10 @@ function checkout() {
         
         // Si es oversize o boxfit
         if (isOversize || isBoxfit) {
-            return sum + item.quantity;
+            // Solo contar si NO tiene descuento individual aplicado (precio unitario normal)
+            if (item.unitPrice >= 45) { // Precio normal sin descuento
+                return sum + item.quantity;
+            }
         }
         return sum;
     }, 0);
@@ -663,8 +684,8 @@ function checkout() {
     let descuentoTotal = 0;
     let descuentoMensajes = [];
     
-    // Descuento playeras lisas: Q25→Q18 si hay más de 12
-    if (playerasLisasCount > 12) {
+    // Descuento playeras lisas: Q25→Q18 si hay 12 o más
+    if (playerasLisasCount >= 12) {
         const descuentoPorUnidad = 25 - 18; // Q7 de descuento por unidad
         const descuentoAdicional = descuentoPorUnidad * playerasLisasCount;
         descuentoTotal += descuentoAdicional;
@@ -1245,12 +1266,22 @@ updatePrice = function() {
     const discountAppliedEl = document.getElementById('discountApplied');
     const quantity = parseInt(quantityInput?.value) || 1;
     
-    // Mostrar "Descuento aplicado" solo si la cantidad es 12 o más (todas las secciones)
+    // Mostrar "Descuento aplicado" según el tipo de producto
     if (discountAppliedEl) {
-        if (quantity >= 12) {
-            discountAppliedEl.style.display = 'block';
-        } else {
-            discountAppliedEl.style.display = 'none';
+        if (currentProductType === 'lisa') {
+            // Playeras Lisas: solo si cantidad es 12 o más
+            if (quantity >= 12) {
+                discountAppliedEl.style.display = 'block';
+            } else {
+                discountAppliedEl.style.display = 'none';
+            }
+        } else if (currentProductType === 'oversize' || currentProductType === 'boxfit') {
+            // T-shirt Oversize y Boxfit: si cantidad es 6 o más
+            if (quantity >= 6) {
+                discountAppliedEl.style.display = 'block';
+            } else {
+                discountAppliedEl.style.display = 'none';
+            }
         }
     }
     
