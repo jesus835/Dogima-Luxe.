@@ -552,6 +552,17 @@ body {
     transition: transform 0.3s ease, opacity 0.3s ease, box-shadow 0.3s ease;
     position: relative;
     opacity: 1;
+    cursor: pointer;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.product-item:focus {
+    outline: none;
+}
+
+.product-item:active {
+    outline: none;
 }
 
 /* Estilos profesionales para la ficha de información */
@@ -875,11 +886,21 @@ body {
     font-size: 13px;
     cursor: pointer;
     margin-top: 10px;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
     transition: background 0.3s;
 }
 
 .btn-cart:hover {
     background: #1565c0;
+}
+
+.btn-cart:focus {
+    outline: none;
+}
+
+.btn-cart:active {
+    outline: none;
 }
 
 /* Modal del carrito */
@@ -1222,6 +1243,329 @@ body {
     font-size: 14px;
     color: #666;
     font-weight: 500;
+}
+
+/* Estilos del modal de datos del cliente */
+.customer-modal {
+    max-width: 500px;
+}
+
+.customer-modal h2 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.customer-modal p {
+    margin-bottom: 20px;
+    color: #666;
+    font-size: 14px;
+}
+
+.customer-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    color: #333;
+    font-size: 14px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #1e88e5;
+    box-shadow: 0 0 0 2px rgba(30, 136, 229, 0.2);
+}
+
+.form-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+
+.btn-cancel {
+    background: #757575;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.btn-cancel:hover {
+    background: #616161;
+}
+
+.btn-proceed {
+    background: #1e88e5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.btn-proceed:hover {
+    background: #1565c0;
+}
+
+/* Responsive para el modal de cliente */
+@media (max-width: 768px) {
+    .customer-modal {
+        max-width: 95%;
+        margin: 10% auto;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-cancel,
+    .btn-proceed {
+        width: 100%;
+    }
+}
+
+/* Estilos del carrusel de imágenes en el modal */
+.image-carousel {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.carousel-container img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.3s ease;
+    z-index: 2;
+}
+
+.carousel-btn:hover {
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.carousel-btn.prev {
+    left: 10px;
+}
+
+.carousel-btn.next {
+    right: 10px;
+}
+
+.carousel-dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.carousel-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #ddd;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.carousel-dot.active {
+    background: #1e88e5;
+}
+
+.carousel-dot:hover {
+    background: #bbb;
+}
+
+/* Responsive para el carrusel */
+@media (max-width: 768px) {
+    .carousel-btn {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+    
+    .carousel-btn.prev {
+        left: 5px;
+    }
+    
+    .carousel-btn.next {
+        right: 5px;
+    }
+    
+    .carousel-dots {
+        gap: 6px;
+    }
+    
+    .carousel-dot {
+        width: 8px;
+        height: 8px;
+    }
+}
+
+/* Estilos del modal de zoom de imagen */
+.image-zoom-modal {
+    max-width: 90%;
+    max-height: 90%;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.zoom-image-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f8f9fa;
+    min-height: 400px;
+    padding: 20px;
+}
+
+.zoom-carousel-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: pan-x;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.zoom-carousel-container img {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    cursor: zoom-in;
+    transition: transform 0.3s ease;
+    pointer-events: auto;
+}
+
+.zoom-carousel-container img:hover {
+    transform: scale(1.02);
+}
+
+.zoom-image-container .carousel-dots {
+    margin-top: 15px;
+}
+
+.zoom-image-info {
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #eee;
+}
+
+.zoom-image-info h3 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 18px;
+}
+
+.zoom-image-info p {
+    margin: 0;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Responsive para el modal de zoom */
+@media (max-width: 768px) {
+    .image-zoom-modal {
+        max-width: 95%;
+        max-height: 95%;
+        margin: 5% auto;
+    }
+    
+    .zoom-image-container {
+        min-height: 300px;
+        padding: 15px;
+    }
+    
+    .zoom-image-info {
+        padding: 15px;
+    }
+    
+    .zoom-image-info h3 {
+        font-size: 16px;
+    }
+    
+    .zoom-image-info p {
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 480px) {
+    .zoom-image-container {
+        min-height: 250px;
+        padding: 10px;
+    }
+    
+    .zoom-image-info {
+        padding: 10px;
+    }
 }
 
 .cart-quantity-controls {

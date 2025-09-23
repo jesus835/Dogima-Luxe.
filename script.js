@@ -24,6 +24,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Actualizar badges
     updateCartBadge();
     updateOrdersBadge();
+    
+    // Configurar formulario de datos del cliente
+    const customerDataForm = document.getElementById('customerDataForm');
+    if (customerDataForm) {
+        customerDataForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            processOrderWithCustomerData();
+        });
+    }
     // Control para activar/desactivar la sección de "Nuevos Arrivals" (mujeres)
     // Por defecto está oculta vía CSS. Para activarla dinámicamente:
     // setWomenSectionVisible(true)
@@ -171,6 +180,8 @@ document.addEventListener('DOMContentLoaded', function() {
 let currentProductColor = '';
 let currentProductImage = '';
 let currentProductType = 'lisa'; // lisa | oversize | boxfit
+let carouselImages = [];
+let currentImageIndex = 0;
 
 // Precios por tipo
 function getUnitPriceFor(quantity, productName) {
@@ -225,13 +236,22 @@ function openCartModal(colorName, imageId) {
         currentProductImage = `./images/${imageFolder}/${file}`;
     }
     
+    // Detectar imágenes disponibles para el carrusel (para el modal de zoom)
+    carouselImages = detectAvailableImages(colorName, imageId);
+    currentImageIndex = 0;
+    
     // Actualizar contenido del modal (compatibilidad con index.html y store.html)
     const productImageEl = document.getElementById('modalProductImage') || document.getElementById('modalImage');
     const productNameEl = document.getElementById('modalProductName');
     const productInfoEl = document.getElementById('modalProductInfo');
-    if (productImageEl) productImageEl.src = currentProductImage;
+    
+    if (productImageEl && carouselImages.length > 0) {
+        productImageEl.src = carouselImages[0];
+        currentProductImage = carouselImages[0];
+    }
+    
     if (productNameEl) productNameEl.textContent = colorName;
-    if (productInfoEl) productInfoEl.textContent = 'Algodón en hilo 22 - Tallas Disponibles: S, M, L y XL';
+    if (productInfoEl) productInfoEl.textContent = 'Algodón en hilo 20 - Tallas Disponibles: S, M, L y XL';
 
     // Resetear cantidad y talla
     const qtyEl = document.getElementById('quantityInput');
@@ -239,12 +259,21 @@ function openCartModal(colorName, imageId) {
     if (qtyEl) qtyEl.value = 1;
     if (sizeEl) sizeEl.value = 'M';
     
+    // Agregar evento de clic a la imagen para abrir el modal de zoom
+    if (productImageEl) {
+        productImageEl.onclick = openImageZoomModal;
+        productImageEl.style.cursor = 'pointer';
+        productImageEl.title = 'Haz clic para ver imagen más grande';
+    }
+    
     // Resetear precio
     updatePrice();
     
     // Mostrar modal
     const modal = document.getElementById('cartModal');
-    if (modal) modal.style.display = 'block';
+    if (modal) {
+        modal.style.display = 'block';
+    }
 }
 
 // Función para cerrar el modal
@@ -389,6 +418,8 @@ window.onclick = function(event) {
     const cartModal = document.getElementById('shoppingCartModal');
     const ordersModal = document.getElementById('ordersModal');
     const couponsModal = document.getElementById('couponsModal');
+    const customerDataModal = document.getElementById('customerDataModal');
+    const imageZoomModal = document.getElementById('imageZoomModal');
     const mobileMenu = document.getElementById('mobileMenu');
     
     if (event.target === modal) {
@@ -402,6 +433,12 @@ window.onclick = function(event) {
     }
     if (event.target === couponsModal) {
         closeCouponsModal();
+    }
+    if (event.target === customerDataModal) {
+        closeCustomerDataModal();
+    }
+    if (event.target === imageZoomModal) {
+        closeImageZoomModal();
     }
     if (event.target === mobileMenu) {
         closeMobileMenu();
@@ -642,6 +679,10 @@ function checkout() {
         return;
     }
     
+    // Abrir modal de datos del cliente en lugar de ir directamente a WhatsApp
+    document.getElementById('customerDataModal').style.display = 'block';
+    return;
+    
     // Crear mensaje para WhatsApp
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     let totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
@@ -772,6 +813,539 @@ function checkout() {
     updateCartBadge();
     saveCartToLocalStorage();
     closeCart();
+}
+
+// Función para cerrar el modal de datos del cliente
+function closeCustomerDataModal() {
+    document.getElementById('customerDataModal').style.display = 'none';
+}
+
+// Función para abrir el modal de zoom de imagen
+function openImageZoomModal() {
+    const modalImage = document.getElementById('modalProductImage') || document.getElementById('modalImage');
+    const modalProductName = document.getElementById('modalProductName');
+    const modalProductInfo = document.getElementById('modalProductInfo');
+    
+    if (modalImage && modalImage.src) {
+        // Obtener datos del producto actual
+        const productName = modalProductName ? modalProductName.textContent : 'Producto';
+        const productInfo = modalProductInfo ? modalProductInfo.textContent : '';
+        
+        // Configurar el modal de zoom
+        document.getElementById('zoomImage').src = carouselImages[currentImageIndex] || modalImage.src;
+        document.getElementById('zoomProductName').textContent = productName;
+        document.getElementById('zoomProductDetails').textContent = productInfo;
+        
+        // Configurar carrusel inicial (solo con imagen base)
+        setupZoomCarousel();
+        
+        // Verificar y cargar imágenes adicionales en segundo plano
+        loadAdditionalImages();
+        
+        // Mostrar el modal
+        document.getElementById('imageZoomModal').style.display = 'block';
+    }
+}
+
+// Función para cerrar el modal de zoom de imagen
+function closeImageZoomModal() {
+    document.getElementById('imageZoomModal').style.display = 'none';
+    
+    // Limpiar gestos táctiles
+    isGestureEnabled = false;
+}
+
+// Función para abrir el modal de zoom desde las tarjetas de productos
+function openProductImageModal(colorName, imageId) {
+    // Detectar tipo de producto basado en el nombre del color o imagen
+    const name = (colorName || '').toLowerCase();
+    if (name.includes('oversize')) {
+        currentProductType = 'oversize';
+    } else if (name.includes('boxfit')) {
+        currentProductType = 'boxfit';
+    } else {
+        currentProductType = 'lisa';
+    }
+    
+    // Configurar variables globales
+    currentProductColor = colorName;
+    currentProductImage = '';
+    
+    // Detectar imágenes disponibles para el carrusel
+    carouselImages = detectAvailableImages(colorName, imageId);
+    currentImageIndex = 0;
+    
+    // Configurar el modal de zoom
+    document.getElementById('zoomImage').src = carouselImages[currentImageIndex] || '';
+    document.getElementById('zoomProductName').textContent = colorName;
+    
+    // Configurar información del producto según el tipo
+    let productInfo = 'Algodón en hilo 22 - Tallas Disponibles: S, M, L y XL';
+    if (currentProductType === 'oversize' || currentProductType === 'boxfit') {
+        productInfo = 'Algodón en hilo 20 - Tallas Disponibles: S, M, L y XL';
+    }
+    document.getElementById('zoomProductDetails').textContent = productInfo;
+    
+    // Configurar carrusel inicial (solo con imagen base)
+    setupZoomCarousel();
+    
+    // Verificar y cargar imágenes adicionales en segundo plano
+    loadAdditionalImages();
+    
+    // Mostrar el modal
+    document.getElementById('imageZoomModal').style.display = 'block';
+}
+
+// Función para detectar imágenes disponibles
+function detectAvailableImages(colorName, imageId) {
+    const images = [];
+    
+    // Obtener carpeta y extensión según el tipo de producto
+    let imageFolder = 'camisas lisas';
+    let extension = '.png';
+    
+    if (currentProductType === 'oversize') {
+        imageFolder = 'overside';
+        extension = '.jpg';
+    } else if (currentProductType === 'boxfit') {
+        imageFolder = 'T-shirt Boxifit';
+        extension = '.jpg';
+    }
+    
+    // Si imageId ya es una ruta completa, usarla
+    if (imageId && (imageId.includes('/') || imageId.includes('.'))) {
+        images.push(imageId);
+        return images;
+    }
+    
+    // Usar el nombre exacto del archivo base
+    const baseFileName = imageId || colorName.toLowerCase();
+    
+    // Solo agregar la imagen base por defecto
+    // Las imágenes adicionales se verificarán dinámicamente usando los nombres exactos
+    const baseImagePath = `./images/${imageFolder}/${baseFileName}${extension}`;
+    images.push(baseImagePath);
+    
+    return images;
+}
+
+// Función para verificar y cargar imágenes adicionales
+async function loadAdditionalImages() {
+    if (carouselImages.length === 0) return;
+    
+    const basePath = carouselImages[0];
+    const pathParts = basePath.split('/');
+    const fileName = pathParts[pathParts.length - 1];
+    const baseName = fileName.split('.')[0];
+    const extension = fileName.split('.')[1];
+    const folder = pathParts.slice(0, -1).join('/');
+    
+    const additionalImages = [];
+    
+    // Verificar imágenes numeradas usando los nombres exactos que tienes en las carpetas
+    // Ejemplo: blanco1.jpg, blanco2.jpg, blanco3.jpg, etc.
+    for (let i = 1; i <= 10; i++) { // Aumentado a 10 para cubrir más posibilidades
+        const numberedPath = `${folder}/${baseName}${i}.${extension}`;
+        
+        try {
+            const exists = await checkImageExists(numberedPath);
+            if (exists) {
+                additionalImages.push(numberedPath);
+            }
+        } catch (error) {
+            // Imagen no existe, continuar
+        }
+    }
+    
+    // Agregar imágenes adicionales al array principal
+    carouselImages.push(...additionalImages);
+    
+    // Actualizar el carrusel
+    updateCarouselDisplay();
+}
+
+// Función para verificar si una imagen existe
+function checkImageExists(imagePath) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(true);
+        img.onerror = () => resolve(false);
+        img.src = imagePath;
+    });
+}
+
+// Función para actualizar la visualización del carrusel
+function updateCarouselDisplay() {
+    const dotsContainer = document.getElementById('zoomCarouselDots');
+    
+    // Actualizar dots si hay múltiples imágenes
+    if (carouselImages.length > 1) {
+        if (dotsContainer) {
+            dotsContainer.style.display = 'flex';
+            dotsContainer.innerHTML = '';
+            carouselImages.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.className = `carousel-dot ${index === currentImageIndex ? 'active' : ''}`;
+                dot.onclick = () => goToZoomImage(index);
+                dotsContainer.appendChild(dot);
+            });
+        }
+        
+        // Configurar gestos táctiles si no están configurados
+        const carouselContainer = document.getElementById('zoomCarouselContainer');
+        if (carouselContainer && !isGestureEnabled) {
+            setupTouchGestures(carouselContainer);
+            setupKeyboardNavigation();
+        }
+    } else {
+        if (dotsContainer) {
+            dotsContainer.style.display = 'none';
+        }
+    }
+}
+
+// Función para configurar el carrusel en el modal de zoom
+function setupZoomCarousel() {
+    const dotsContainer = document.getElementById('zoomCarouselDots');
+    const carouselContainer = document.getElementById('zoomCarouselContainer');
+    
+    // Mostrar/ocultar dots según número de imágenes
+    if (carouselImages.length > 1) {
+        if (dotsContainer) dotsContainer.style.display = 'flex';
+        
+        // Crear dots
+        if (dotsContainer) {
+            dotsContainer.innerHTML = '';
+            carouselImages.forEach((_, index) => {
+                const dot = document.createElement('span');
+                dot.className = `carousel-dot ${index === currentImageIndex ? 'active' : ''}`;
+                dot.onclick = () => goToZoomImage(index);
+                dotsContainer.appendChild(dot);
+            });
+        }
+        
+        // Configurar gestos táctiles
+        setupTouchGestures(carouselContainer);
+        
+        // Configurar navegación por teclado
+        setupKeyboardNavigation();
+    } else {
+        if (dotsContainer) dotsContainer.style.display = 'none';
+    }
+}
+
+// Variables para gestos táctiles
+let touchStartX = 0;
+let touchEndX = 0;
+let isGestureEnabled = false;
+
+// Función para configurar gestos táctiles
+function setupTouchGestures(container) {
+    if (!container) return;
+    
+    isGestureEnabled = true;
+    
+    // Eventos táctiles
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
+    
+    // Eventos de mouse para desktop
+    container.addEventListener('mousedown', handleMouseDown);
+    container.addEventListener('mouseup', handleMouseUp);
+    container.addEventListener('mouseleave', handleMouseLeave);
+}
+
+// Función para configurar navegación por teclado
+function setupKeyboardNavigation() {
+    document.addEventListener('keydown', handleKeyDown);
+}
+
+// Función para manejar teclas
+function handleKeyDown(e) {
+    // Solo responder si el modal de zoom está abierto
+    const zoomModal = document.getElementById('imageZoomModal');
+    if (!zoomModal || zoomModal.style.display === 'none') return;
+    
+    // Solo responder si hay múltiples imágenes
+    if (carouselImages.length <= 1) return;
+    
+    switch(e.key) {
+        case 'ArrowLeft':
+            e.preventDefault();
+            previousZoomImage();
+            break;
+        case 'ArrowRight':
+            e.preventDefault();
+            nextZoomImage();
+            break;
+        case 'Escape':
+            e.preventDefault();
+            closeImageZoomModal();
+            break;
+    }
+}
+
+// Función para manejar inicio de toque/click
+function handleTouchStart(e) {
+    if (!isGestureEnabled) return;
+    touchStartX = e.touches ? e.touches[0].clientX : e.clientX;
+}
+
+// Función para manejar fin de toque/click
+function handleTouchEnd(e) {
+    if (!isGestureEnabled) return;
+    touchEndX = e.changedTouches ? e.changedTouches[0].clientX : e.clientX;
+    handleSwipe();
+}
+
+// Función para manejar mouse down
+function handleMouseDown(e) {
+    if (!isGestureEnabled) return;
+    touchStartX = e.clientX;
+    e.preventDefault();
+}
+
+// Función para manejar mouse up
+function handleMouseUp(e) {
+    if (!isGestureEnabled) return;
+    touchEndX = e.clientX;
+    handleSwipe();
+}
+
+// Función para manejar mouse leave
+function handleMouseLeave(e) {
+    if (!isGestureEnabled) return;
+    touchEndX = touchStartX; // Cancelar el gesto
+}
+
+// Función para procesar el swipe
+function handleSwipe() {
+    const swipeThreshold = 50; // Mínimo de píxeles para considerar un swipe
+    const swipeDistance = touchEndX - touchStartX;
+    
+    if (Math.abs(swipeDistance) > swipeThreshold) {
+        if (swipeDistance > 0) {
+            // Swipe hacia la derecha - imagen anterior
+            previousZoomImage();
+        } else {
+            // Swipe hacia la izquierda - imagen siguiente
+            nextZoomImage();
+        }
+    }
+}
+
+// Función para ir a imagen anterior en el modal de zoom
+function previousZoomImage() {
+    if (carouselImages.length <= 1) return;
+    
+    currentImageIndex = currentImageIndex > 0 ? currentImageIndex - 1 : carouselImages.length - 1;
+    updateZoomCarouselImage();
+}
+
+// Función para ir a imagen siguiente en el modal de zoom
+function nextZoomImage() {
+    if (carouselImages.length <= 1) return;
+    
+    currentImageIndex = currentImageIndex < carouselImages.length - 1 ? currentImageIndex + 1 : 0;
+    updateZoomCarouselImage();
+}
+
+// Función para ir a una imagen específica en el modal de zoom
+function goToZoomImage(index) {
+    if (index >= 0 && index < carouselImages.length) {
+        currentImageIndex = index;
+        updateZoomCarouselImage();
+    }
+}
+
+// Función para actualizar la imagen del carrusel en el modal de zoom
+function updateZoomCarouselImage() {
+    const zoomImageEl = document.getElementById('zoomImage');
+    const dots = document.querySelectorAll('#zoomCarouselDots .carousel-dot');
+    
+    if (zoomImageEl && carouselImages[currentImageIndex]) {
+        zoomImageEl.src = carouselImages[currentImageIndex];
+    }
+    
+    // Actualizar dots activos
+    dots.forEach((dot, index) => {
+        dot.classList.toggle('active', index === currentImageIndex);
+    });
+}
+
+// Función para procesar el pedido con datos del cliente
+function processOrderWithCustomerData() {
+    // Obtener datos del formulario
+    const customerName = document.getElementById('customerName').value.trim();
+    const customerPhone = document.getElementById('customerPhone').value.trim();
+    const customerAddress = document.getElementById('customerAddress').value.trim();
+    const customerDepartment = document.getElementById('customerDepartment').value;
+    
+    // Validar que todos los campos estén completos
+    if (!customerName || !customerPhone || !customerAddress || !customerDepartment) {
+        alert('Por favor completa todos los campos obligatorios.');
+        return;
+    }
+    
+    // Validar formato de teléfono
+    const phoneRegex = /^[0-9\s\-\+\(\)]{8,}$/;
+    if (!phoneRegex.test(customerPhone)) {
+        alert('Por favor ingresa un número de teléfono válido.');
+        return;
+    }
+    
+    // Proceder con el pedido original
+    completeCheckout(customerName, customerPhone, customerAddress, customerDepartment);
+}
+
+// Función para completar el checkout con datos del cliente
+function completeCheckout(customerName, customerPhone, customerAddress, customerDepartment) {
+    // Crear mensaje para WhatsApp
+    const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    let totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
+    
+    // Contar playeras lisas, oversize y boxfit por separado
+    // Solo contar productos que NO tengan descuento individual ya aplicado
+    const playerasLisasCount = cartItems.reduce((sum, item) => {
+        const name = (item.name || '').toLowerCase();
+        const isOversize = name.includes('oversize');
+        const isBoxfit = name.includes('boxfit');
+        
+        // Si no es oversize ni boxfit, es playera lisa
+        if (!isOversize && !isBoxfit) {
+            // Solo contar si NO tiene descuento individual aplicado (precio unitario normal)
+            if (item.unitPrice >= 25) { // Precio normal sin descuento
+                return sum + item.quantity;
+            }
+        }
+        return sum;
+    }, 0);
+    
+    const oversizeBoxfitCount = cartItems.reduce((sum, item) => {
+        const name = (item.name || '').toLowerCase();
+        const isOversize = name.includes('oversize');
+        const isBoxfit = name.includes('boxfit');
+        
+        // Si es oversize o boxfit
+        if (isOversize || isBoxfit) {
+            // Solo contar si NO tiene descuento individual aplicado (precio unitario normal)
+            if (item.unitPrice >= 45) { // Precio normal sin descuento
+                return sum + item.quantity;
+            }
+        }
+        return sum;
+    }, 0);
+    
+    // Aplicar descuentos bulk
+    let descuentoTotal = 0;
+    let descuentoMensajes = [];
+    
+    // Descuento playeras lisas: Q25→Q18 si hay 12 o más
+    if (playerasLisasCount >= 12) {
+        const descuentoPorUnidad = 25 - 18; // Q7 de descuento por unidad
+        const descuentoAdicional = descuentoPorUnidad * playerasLisasCount;
+        descuentoTotal += descuentoAdicional;
+        descuentoMensajes.push(`Playeras (Q25→Q18 c/u): -Q${descuentoAdicional}`);
+    }
+    
+    // Descuento oversize/boxfit: aplicar descuento según cantidad
+    if (oversizeBoxfitCount >= 6) {
+        let descuentoPorUnidad, precioFinal, descuentoMensaje;
+        
+        if (oversizeBoxfitCount >= 12) {
+            // Descuento por docena: Q45→Q35
+            descuentoPorUnidad = 45 - 35; // Q10 de descuento por unidad
+            precioFinal = 'Q45→Q35 c/u';
+        } else {
+            // Descuento por media docena: Q45→Q38
+            descuentoPorUnidad = 45 - 38; // Q7 de descuento por unidad
+            precioFinal = 'Q45→Q38 c/u';
+        }
+        
+        const descuentoAdicional = descuentoPorUnidad * oversizeBoxfitCount;
+        descuentoTotal += descuentoAdicional;
+        descuentoMensajes.push(`Oversize/Boxfit (${precioFinal}): -Q${descuentoAdicional}`);
+    }
+    
+    // Aplicar descuentos al total
+    if (descuentoTotal > 0) {
+        totalPrice = totalPrice - descuentoTotal;
+    }
+    
+    // Generar ID de pedido
+    const orderId = 'PED-' + Date.now();
+    
+    let message = '*PEDIDO - DOGIMA LUXE*\n\n';
+    message += `*ID PEDIDO: ${orderId}*\n\n`;
+    
+    // Datos del cliente
+    message += '*DATOS DEL CLIENTE:*\n';
+    message += `👤 Nombre: ${customerName}\n`;
+    message += `📱 Teléfono: ${customerPhone}\n`;
+    message += `📍 Dirección: ${customerAddress}\n`;
+    message += `🏢 Departamento: ${customerDepartment}\n\n`;
+    
+    message += '*DETALLE DEL PEDIDO:*\n';
+    
+    cartItems.forEach((item, index) => {
+        message += `\n${index + 1}. ${item.name}\n`;
+        message += `   - Talla: ${item.size}\n`;
+        message += `   - Cantidad: ${item.quantity}\n`;
+        message += `   - Precio unitario: Q${item.unitPrice}\n`;
+        message += `   - Subtotal: Q${item.total}\n`;
+    });
+    
+    message += `\n*RESUMEN:*\n`;
+    message += `- Total de productos: ${totalItems}\n`;
+    if (descuentoTotal > 0) {
+        descuentoMensajes.forEach(descuento => {
+            message += `- Descuento bulk: ${descuento}\n`;
+        });
+    }
+    message += `- *TOTAL A PAGAR: Q${totalPrice}*\n\n`;
+    message += `Gracias por tu pedido! Te contactaremos pronto para coordinar la entrega.`;
+    
+    // Codificar el mensaje para URL
+    const encodedMessage = encodeURIComponent(message);
+    const whatsappUrl = `https://wa.me/50257326695?text=${encodedMessage}`;
+    
+    // Abrir WhatsApp
+    window.open(whatsappUrl, '_blank');
+    
+    // Guardar pedido en localStorage
+    const order = {
+        id: orderId,
+        date: new Date().toLocaleString(),
+        status: 'realizado',
+        customer: {
+            name: customerName,
+            phone: customerPhone,
+            address: customerAddress,
+            department: customerDepartment
+        },
+        items: cartItems.map(item => ({...item})),
+        total: totalPrice,
+        totalItems: totalItems
+    };
+    
+    orders.unshift(order);
+    localStorage.setItem('dogimaOrders', JSON.stringify(orders));
+    
+    // Limpiar carrito
+    cartItems = [];
+    saveCartToLocalStorage();
+    
+    // Actualizar UI
+    updateCartDisplay();
+    updateCartBadge();
+    updateOrdersBadge();
+    
+    // Cerrar modales
+    document.getElementById('shoppingCartModal').style.display = 'none';
+    document.getElementById('customerDataModal').style.display = 'none';
+    
+    // Limpiar formulario
+    document.getElementById('customerDataForm').reset();
 }
 
 // Funciones del modal de pedidos
