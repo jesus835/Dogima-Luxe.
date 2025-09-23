@@ -20,6 +20,22 @@
             font-style: normal;
         }
     </style>
+    <script>
+        // Redirigir automáticamente al index.html cuando se recarga la página
+        window.addEventListener('beforeunload', function() {
+            // Solo redirigir si es una recarga (no una navegación normal)
+            if (performance.navigation.type === 1) { // 1 = reload
+                window.location.href = 'index.html';
+            }
+        });
+        
+        // Alternativa más confiable: detectar recarga con performance API
+        window.addEventListener('load', function() {
+            if (performance.navigation.type === 1) {
+                window.location.href = 'index.html';
+            }
+        });
+    </script>
 </head>
 <body>
 
@@ -483,9 +499,12 @@
                     </div>
                     
                     <div class="price-summary">
-                        <p>Precio unitario: <span id="unitPrice">Q25</span></p>
-                        <p>Total: <span id="totalPrice">Q25</span></p>
-                        <p id="discountInfo" style="color: #4CAF50; font-weight: bold; display: none;"></p>
+                        <div class="unit-price">Precio unitario: <span id="unitPrice">Q25</span></div>
+                        <div class="discount-applied" id="discountApplied" style="display: none;">Descuento aplicado</div>
+                        <div class="total-price">Total: <span id="totalPrice">Q25</span></div>
+                        <div class="discount-info" id="discountInfo" style="display: none;">
+                            ¡Descuento aplicado! Precio por docena: Q18 c/u
+                        </div>
                     </div>
                     
                     <button class="btn-add-to-cart" onclick="addToCart()">Agregar al Carrito</button>

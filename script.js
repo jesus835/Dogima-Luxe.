@@ -493,11 +493,85 @@ function updateCartDisplay() {
 // Actualizar resumen del carrito
 function updateCartSummary() {
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    const totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
+    let totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
+    
+    // Contar playeras lisas, oversize y boxfit por separado
+    const playerasLisasCount = cartItems.reduce((sum, item) => {
+        const name = (item.name || '').toLowerCase();
+        const isOversize = name.includes('oversize');
+        const isBoxfit = name.includes('boxfit');
+        
+        // Si no es oversize ni boxfit, es playera lisa
+        if (!isOversize && !isBoxfit) {
+            return sum + item.quantity;
+        }
+        return sum;
+    }, 0);
+    
+    const oversizeBoxfitCount = cartItems.reduce((sum, item) => {
+        const name = (item.name || '').toLowerCase();
+        const isOversize = name.includes('oversize');
+        const isBoxfit = name.includes('boxfit');
+        
+        // Si es oversize o boxfit
+        if (isOversize || isBoxfit) {
+            return sum + item.quantity;
+        }
+        return sum;
+    }, 0);
+    
+    // Aplicar descuentos bulk
+    let descuentoTotal = 0;
+    let descuentoTextos = [];
+    
+    // Descuento playeras lisas: Q25→Q18 si hay más de 12
+    if (playerasLisasCount > 12) {
+        const descuentoPorUnidad = 25 - 18; // Q7 de descuento por unidad
+        const descuentoAdicional = descuentoPorUnidad * playerasLisasCount;
+        descuentoTotal += descuentoAdicional;
+        descuentoTextos.push(`Playeras Q18 c/u: -Q${descuentoAdicional}`);
+    }
+    
+    // Descuento oversize/boxfit: aplicar descuento según cantidad
+    if (oversizeBoxfitCount >= 6) {
+        let descuentoPorUnidad, precioFinal, descuentoTexto;
+        
+        if (oversizeBoxfitCount >= 12) {
+            // Descuento por docena: Q45→Q35
+            descuentoPorUnidad = 45 - 35; // Q10 de descuento por unidad
+            precioFinal = 'Q35 c/u';
+        } else {
+            // Descuento por media docena: Q45→Q38
+            descuentoPorUnidad = 45 - 38; // Q7 de descuento por unidad
+            precioFinal = 'Q38 c/u';
+        }
+        
+        const descuentoAdicional = descuentoPorUnidad * oversizeBoxfitCount;
+        descuentoTotal += descuentoAdicional;
+        descuentoTextos.push(`Oversize/Boxfit ${precioFinal}: -Q${descuentoAdicional}`);
+    }
+    
+    // Aplicar descuentos al total
+    if (descuentoTotal > 0) {
+        totalPrice = totalPrice - descuentoTotal;
+        
+        // Mostrar información del descuento adicional
+        const cartSubtotalEl = document.getElementById('cartSubtotal');
+        const cartTotalEl = document.getElementById('cartTotal');
+        
+        if (cartSubtotalEl && cartTotalEl) {
+            const precioOriginal = cartItems.reduce((sum, item) => sum + item.total, 0);
+            const descuentoTexto = descuentoTextos.join(', ');
+            cartSubtotalEl.innerHTML = `Q${precioOriginal} <span style="color: #4caf50; font-size: 12px;">(-Q${descuentoTotal} bulk: ${descuentoTexto})</span>`;
+            cartTotalEl.textContent = `Q${totalPrice}`;
+        }
+    } else {
+        // Mostrar precios normales
+        document.getElementById('cartSubtotal').textContent = `Q${totalPrice}`;
+        document.getElementById('cartTotal').textContent = `Q${totalPrice}`;
+    }
     
     document.getElementById('cartTotalItems').textContent = totalItems;
-    document.getElementById('cartSubtotal').textContent = `Q${totalPrice}`;
-    document.getElementById('cartTotal').textContent = `Q${totalPrice}`;
 }
 
 // Aumentar cantidad en el carrito
@@ -558,7 +632,68 @@ function checkout() {
     
     // Crear mensaje para WhatsApp
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    const totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
+    let totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
+    
+    // Contar playeras lisas, oversize y boxfit por separado
+    const playerasLisasCount = cartItems.reduce((sum, item) => {
+        const name = (item.name || '').toLowerCase();
+        const isOversize = name.includes('oversize');
+        const isBoxfit = name.includes('boxfit');
+        
+        // Si no es oversize ni boxfit, es playera lisa
+        if (!isOversize && !isBoxfit) {
+            return sum + item.quantity;
+        }
+        return sum;
+    }, 0);
+    
+    const oversizeBoxfitCount = cartItems.reduce((sum, item) => {
+        const name = (item.name || '').toLowerCase();
+        const isOversize = name.includes('oversize');
+        const isBoxfit = name.includes('boxfit');
+        
+        // Si es oversize o boxfit
+        if (isOversize || isBoxfit) {
+            return sum + item.quantity;
+        }
+        return sum;
+    }, 0);
+    
+    // Aplicar descuentos bulk
+    let descuentoTotal = 0;
+    let descuentoMensajes = [];
+    
+    // Descuento playeras lisas: Q25→Q18 si hay más de 12
+    if (playerasLisasCount > 12) {
+        const descuentoPorUnidad = 25 - 18; // Q7 de descuento por unidad
+        const descuentoAdicional = descuentoPorUnidad * playerasLisasCount;
+        descuentoTotal += descuentoAdicional;
+        descuentoMensajes.push(`Playeras (Q25→Q18 c/u): -Q${descuentoAdicional}`);
+    }
+    
+    // Descuento oversize/boxfit: aplicar descuento según cantidad
+    if (oversizeBoxfitCount >= 6) {
+        let descuentoPorUnidad, precioFinal, descuentoMensaje;
+        
+        if (oversizeBoxfitCount >= 12) {
+            // Descuento por docena: Q45→Q35
+            descuentoPorUnidad = 45 - 35; // Q10 de descuento por unidad
+            precioFinal = 'Q45→Q35 c/u';
+        } else {
+            // Descuento por media docena: Q45→Q38
+            descuentoPorUnidad = 45 - 38; // Q7 de descuento por unidad
+            precioFinal = 'Q45→Q38 c/u';
+        }
+        
+        const descuentoAdicional = descuentoPorUnidad * oversizeBoxfitCount;
+        descuentoTotal += descuentoAdicional;
+        descuentoMensajes.push(`Oversize/Boxfit (${precioFinal}): -Q${descuentoAdicional}`);
+    }
+    
+    // Aplicar descuentos al total
+    if (descuentoTotal > 0) {
+        totalPrice = totalPrice - descuentoTotal;
+    }
     
     // Generar ID de pedido
     const orderId = 'PED-' + Date.now();
@@ -577,6 +712,11 @@ function checkout() {
     
     message += `\n*RESUMEN:*\n`;
     message += `- Total de productos: ${totalItems}\n`;
+    if (descuentoTotal > 0) {
+        descuentoMensajes.forEach(descuento => {
+            message += `- Descuento bulk: ${descuento}\n`;
+        });
+    }
     message += `- *TOTAL A PAGAR: Q${totalPrice}*\n\n`;
     message += `Gracias por tu pedido! Te contactaremos pronto para coordinar la entrega.`;
     
@@ -1099,6 +1239,20 @@ function applyCoupon() {
 let originalUpdatePrice = updatePrice;
 updatePrice = function() {
     originalUpdatePrice(); // Llamar función original
+    
+    // Controlar texto "Descuento aplicado" basado en cantidad
+    const quantityInput = document.getElementById('quantityInput');
+    const discountAppliedEl = document.getElementById('discountApplied');
+    const quantity = parseInt(quantityInput?.value) || 1;
+    
+    // Mostrar "Descuento aplicado" solo si la cantidad es 12 o más (todas las secciones)
+    if (discountAppliedEl) {
+        if (quantity >= 12) {
+            discountAppliedEl.style.display = 'block';
+        } else {
+            discountAppliedEl.style.display = 'none';
+        }
+    }
     
     // Aplicar descuento si hay cupón válido
     const couponInput = document.getElementById('couponCode');
