@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dogima Luxe. - Tienda Completa</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @font-face {
+            font-family: 'Coolvetica';
+            src: url('./fonts/Coolvetica Rg.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'Malvides';
+            src: url('./fonts/Malvides.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Main Header -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1>Dogima Luxe.</h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="store.html" class="active">Tienda</a></li>
+                    <li><a href="#playeras">Playeras Lisas</a></li>
+                    <li><a href="#oversize">T-shirt Oversize</a></li>
+                    <li><a href="#boxfit">T-shirt Boxfit</a></li>
+                    <li><a href="https://wa.me/50257326695?text=Me%20gustaria%20mas%20informacion%20para%20surtir%20mi%20negocio">Contacto</a></li>
+                </ul>
+            </nav>
+            <div class="header-actions">
+                <i class="fas fa-user"></i>
+                <i class="fas fa-search desktop-only"></i>
+                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                    <i class="fas fa-bars"></i>
+                </div>
+                <div class="cart-icon" onclick="openOrders()">
+                    <i class="fas fa-receipt"></i>
+                    <span class="badge" id="ordersBadge">0</span>
+                </div>
+                <div class="cart-icon" onclick="openCart()">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge">0</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Menú móvil -->
+        <div id="mobileMenu" class="mobile-menu">
+            <div class="mobile-menu-content">
+                <ul>
+                    <li><a href="index.html" onclick="closeMobileMenu()">Inicio</a></li>
+                    <li><a href="store.html" onclick="closeMobileMenu()">Tienda</a></li>
+                    <li><a href="#playeras" onclick="closeMobileMenu()">Playeras Lisas</a></li>
+                    <li><a href="#oversize" onclick="closeMobileMenu()">T-shirt Oversize</a></li>
+                    <li><a href="#boxfit" onclick="closeMobileMenu()">T-shirt Boxfit</a></li>
+                    <li><a href="https://wa.me/50257326695?text=Me%20gustaria%20mas%20informacion%20para%20surtir%20mi%20negocio" onclick="closeMobileMenu()">Contacto</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
+
+    <!-- Promotional Banner (solo en móvil) -->
+    <section class="promo-banner mobile-only">
+        <div class="container">
+            <div class="banner-content">
+                <div class="banner-text">
+                    <h2>Nueva Colección</h2>
+                    <p>Descuento 28% en la compra de 12 unidades</p>
+                    <button class="btn-shop-now">Comprar Ahora</button>
+                </div>
+                <div class="banner-image">
+                    <img src="./images/modelbanner.png" alt="Modelo">
+                </div>
+            </div>
+            <div class="banner-dots">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section (solo en móvil) -->
+    <section class="categories-section mobile-only">
+        <div class="container">
+            <div class="section-header">
+                <h3>Categorías</h3>
+            </div>
+            <div class="categories-grid">
+                <div class="category-item">
+                    <a href="#playeras" style="text-decoration:none; color: inherit;">
+                        <div class="category-icon">
+                            <i class="fas fa-tshirt"></i>
+                        </div>
+                        <span>Playeras Lisas</span>
+                    </a>
+                </div>
+                <div class="category-item">
+                    <a href="#oversize" style="text-decoration:none; color: inherit;">
+                        <div class="category-icon">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <span>T-shirt Oversize</span>
+                    </a>
+                </div>
+                <div class="category-item">
+                    <a href="#boxfit" style="text-decoration:none; color: inherit;">
+                        <div class="category-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <span>T-shirt Boxfit</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Popular Section (solo en móvil) -->
+    <section class="popular-section mobile-only">
+        <div class="container">
+            <div class="section-header">
+                <h3>Popular</h3>
+            </div>
+            <div class="popular-grid" id="popularGrid">
+                <!-- Items populares se cargarán por JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Playeras Lisas Section -->
+    <section class="featured-products" id="playeras">
+        <div class="container">
+            <h2>Playeras Lisas</h2>
+            <div class="product-tabs" id="playeras-tabs">
+                <button class="tab-btn active" onclick="filterPlayerasProducts('Playeras Lisas', 'playeras')">Playeras Lisas</button>
+                <button class="tab-btn" onclick="filterPlayerasProducts('Más Vendidos', 'playeras')">Más Vendidos</button>
+                <button class="tab-btn" onclick="filterPlayerasProducts('Mejor Valorados', 'playeras')">Mejor Valorados</button>
+            </div>
+            <div class="products-grid">
+                <!-- Playeras Lisas -->
+                <div class="product-item">
+                    <img src="./images/camisas lisas/blanco.png" alt="Playera Blanca">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Blanco</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Blanco', 'blanco')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/negro.png" alt="Playera Negra">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Negro</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Negro', 'negro')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/celesteclaro.png" alt="Playera Celeste">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Celeste</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Celeste', 'celesteclaro')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/rojo.png" alt="Playera Roja">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Rojo</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Rojo', 'rojo')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/verde.png" alt="Playera Verde">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Verde</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Verde', 'verde')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/gris.png" alt="Playera Gris">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Gris</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Gris', 'gris')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/azul.png" alt="Playera Azul">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Azul</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Azul', 'azul')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/amarillo.png" alt="Playera Amarilla">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Amarillo</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Amarillo', 'amarillo')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/naranja.png" alt="Playera Naranja">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Naranja</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Naranja', 'naranja')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/corinto.png" alt="Playera Corinto">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Corinto</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Corinto', 'corinto')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/fusia.png" alt="Playera Fucsia">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Fucsia</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Fucsia', 'fusia')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/camisas lisas/verdemilitar.png" alt="Playera Verde Militar">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Verde Militar</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Verde Militar', 'verdemilitar')">Agregar al Carrito</button>
+                    </div>
+                </div>
+
+                <!-- Ficha técnica Playeras Lisas -->
+                <div class="product-item info-card" style="grid-column: 1 / -1;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T-shirt Oversize Section -->
+    <section class="featured-products" style="background: #f8f9fa;" id="oversize">
+        <div class="container">
+            <h2>T-shirt Oversize</h2>
+            <div class="product-tabs" id="oversize-tabs">
+                <button class="tab-btn active" onclick="filterOversizeProducts('T-shirt Oversize', 'oversize')">T-shirt Oversize</button>
+                <button class="tab-btn" onclick="filterOversizeProducts('Más Vendidos', 'oversize')">Más Vendidos</button>
+                <button class="tab-btn" onclick="filterOversizeProducts('Mejor Valorados', 'oversize')">Mejor Valorados</button>
+            </div>
+            <div class="products-grid" id="oversizeGrid">
+                <!-- T-shirt Oversize -->
+                <div class="product-item">
+                    <img src="./images/overside/blanco.jpg" alt="T-shirt Oversize Blanca">
+                    <div class="product-details">
+                        <span class="product-category">T-shirt Oversize</span>
+                        <h4>Color Blanco</h4>
+                        <div class="price">
+                            <span class="current-price">Q45</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Blanco Oversize', './images/overside/blanco.jpg')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/overside/negro.jpg" alt="T-shirt Oversize Negra">
+                    <div class="product-details">
+                        <span class="product-category">T-shirt Oversize</span>
+                        <h4>Color Negro</h4>
+                        <div class="price">
+                            <span class="current-price">Q45</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Negro Oversize', './images/overside/negro.jpg')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/overside/beige.jpg" alt="T-shirt Oversize Beige">
+                    <div class="product-details">
+                        <span class="product-category">T-shirt Oversize</span>
+                        <h4>Color Beige</h4>
+                        <div class="price">
+                            <span class="current-price">Q45</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Beige Oversize', './images/overside/beige.jpg')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/overside/crema.jpg" alt="T-shirt Oversize Crema">
+                    <div class="product-details">
+                        <span class="product-category">T-shirt Oversize</span>
+                        <h4>Color Crema</h4>
+                        <div class="price">
+                            <span class="current-price">Q45</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Crema Oversize', './images/overside/crema.jpg')">Agregar al Carrito</button>
+                    </div>
+                </div>
+
+                <!-- Ficha técnica T-shirt Oversize -->
+                <div class="product-item" style="grid-column: 1 / -1;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T-shirt Boxfit Section -->
+    <section class="featured-products" id="boxfit">
+        <div class="container">
+            <h2>T-shirt Boxfit</h2>
+            <div class="product-tabs" id="boxfit-tabs">
+                <button class="tab-btn active" onclick="filterBoxfitProducts('T-shirt Boxfit', 'boxfit')">T-shirt Boxfit</button>
+                <button class="tab-btn" onclick="filterBoxfitProducts('Más Vendidos', 'boxfit')">Más Vendidos</button>
+                <button class="tab-btn" onclick="filterBoxfitProducts('Mejor Valorados', 'boxfit')">Mejor Valorados</button>
+            </div>
+            <div class="products-grid" id="boxfitGrid">
+                <!-- T-shirt Boxfit -->
+                <div class="product-item">
+                    <img src="./images/T-shirt Boxifit/blanco.jpg" alt="T-shirt Boxfit Blanca">
+                    <div class="product-details">
+                        <span class="product-category">T-shirt Boxfit</span>
+                        <h4>Color Blanco</h4>
+                        <div class="price">
+                            <span class="current-price">Q45</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Blanco Boxfit', './images/T-shirt Boxifit/blanco.jpg')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/T-shirt Boxifit/negro.jpg" alt="T-shirt Boxfit Negra">
+                    <div class="product-details">
+                        <span class="product-category">T-shirt Boxfit</span>
+                        <h4>Color Negro</h4>
+                        <div class="price">
+                            <span class="current-price">Q45</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Negro Boxfit', './images/T-shirt Boxifit/negro.jpg')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/T-shirt Boxifit/beige.jpg" alt="T-shirt Boxfit Beige">
+                    <div class="product-details">
+                        <span class="product-category">T-shirt Boxfit</span>
+                        <h4>Color Beige</h4>
+                        <div class="price">
+                            <span class="current-price">Q45</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Beige Boxfit', './images/T-shirt Boxifit/beige.jpg')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item">
+                    <img src="./images/T-shirt Boxifit/crema.jpg" alt="T-shirt Boxfit Crema">
+                    <div class="product-details">
+                        <span class="product-category">T-shirt Boxfit</span>
+                        <h4>Color Crema</h4>
+                        <div class="price">
+                            <span class="current-price">Q45</span>
+                        </div>
+                        <button class="btn-cart" onclick="openCartModal('Crema Boxfit', './images/T-shirt Boxifit/crema.jpg')">Agregar al Carrito</button>
+                    </div>
+                </div>
+
+                <!-- Ficha técnica T-shirt Boxfit -->
+                <div class="product-item" style="grid-column: 1 / -1;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+    </footer>
+
+    <!-- Bottom Navigation (solo en móvil) -->
+    <nav class="bottom-nav mobile-only">
+        <div class="nav-item active" onclick="window.location.href='index.html'">
+            <i class="fas fa-home"></i>
+            <span>Inicio</span>
+        </div>
+        <div class="nav-item" onclick="document.getElementById('playeras') && document.getElementById('playeras').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-tshirt"></i>
+            <span>Playeras</span>
+        </div>
+        <div class="nav-item" onclick="document.getElementById('oversize') && document.getElementById('oversize').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-user-tie"></i>
+            <span>Oversize</span>
+        </div>
+        <div class="nav-item" onclick="document.getElementById('boxfit') && document.getElementById('boxfit').scrollIntoView({behavior: 'smooth'})">
+            <i class="fas fa-box"></i>
+            <span>Boxfit</span>
+        </div>
+        <div class="nav-item" onclick="openCouponsModal()">
+            <i class="fas fa-user"></i>
+            <span>Perfil</span>
+        </div>
+    </nav>
+
+    <!-- Cart Modal -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCartModal()">&times;</span>
+            <div class="modal-product">
+                <img id="modalProductImage" src="" alt="Producto">
+                <div class="modal-details">
+                    <h3 id="modalProductName"></h3>
+                    <p id="modalProductInfo"></p>
+                    
+                    <div class="size-selector">
+                        <label for="sizeSelect">Talla:</label>
+                        <select id="sizeSelect">
+                            <option value="S">S</option>
+                            <option value="M" selected>M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </div>
+                    
+                    <div class="quantity-selector">
+                        <label>Cantidad:</label>
+                        <div class="quantity-controls">
+                            <button onclick="decreaseQuantity()">-</button>
+                            <input type="number" id="quantityInput" value="1" min="1" max="50">
+                            <button onclick="increaseQuantity()">+</button>
+                        </div>
+                    </div>
+                    
+                    <div class="coupon-selector" id="couponSection" style="display: none;">
+                        <label>Código de Cupón:</label>
+                        <div class="coupon-input-container">
+                            <input type="text" id="couponCode" placeholder="Ingresa tu código" onchange="applyCoupon()">
+                            <button class="btn-apply-coupon" onclick="applyCoupon()">Aplicar</button>
+                        </div>
+                        <div class="coupon-status" id="couponStatus"></div>
+                    </div>
+                    
+                    <div class="price-summary">
+                        <p>Precio unitario: <span id="unitPrice">Q25</span></p>
+                        <p>Total: <span id="totalPrice">Q25</span></p>
+                        <p id="discountInfo" style="color: #4CAF50; font-weight: bold; display: none;"></p>
+                    </div>
+                    
+                    <button class="btn-add-to-cart" onclick="addToCart()">Agregar al Carrito</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal del Carrito de Compras -->
+    <div id="shoppingCartModal" class="modal">
+        <div class="modal-content cart-modal">
+            <span class="close" onclick="closeCart()">&times;</span>
+            <h2>Mi Carrito de Compras</h2>
+            
+            <div id="cartItems" class="cart-items">
+                <!-- Los productos se cargarán dinámicamente aquí -->
+            </div>
+            
+            <div id="emptyCart" class="empty-cart" style="display: none;">
+                <i class="fas fa-shopping-cart"></i>
+                <p>Tu carrito está vacío</p>
+                <p>¡Agrega algunas playeras para comenzar!</p>
+            </div>
+            
+            <div id="cartSummary" class="cart-summary" style="display: none;">
+                <div class="summary-row">
+                    <span>Subtotal:</span>
+                    <span id="cartSubtotal">Q0</span>
+                </div>
+                <div class="summary-row">
+                    <span>Total de productos:</span>
+                    <span id="cartTotalItems">0</span>
+                </div>
+                <div class="summary-row total">
+                    <span>Total:</span>
+                    <span id="cartTotal">Q0</span>
+                </div>
+                
+                <div class="cart-actions">
+                    <button class="btn-clear-cart" onclick="clearCart()">Vaciar Carrito</button>
+                    <button class="btn-checkout" onclick="checkout()">Proceder al Checkout</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Pedidos -->
+    <div id="ordersModal" class="modal">
+        <div class="modal-content orders-modal">
+            <span class="close" onclick="closeOrders()">&times;</span>
+            <h2>Mis Pedidos</h2>
+            
+            <div id="ordersItems" class="orders-items">
+                <!-- Los pedidos se cargarán dinámicamente aquí -->
+            </div>
+            
+            <div id="emptyOrders" class="empty-orders" style="display: none;">
+                <i class="fas fa-receipt"></i>
+                <p>No tienes pedidos activos</p>
+                <p>¡Haz tu primer pedido en nuestras playeras!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Cupones -->
+    <div id="couponsModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCouponsModal()">&times;</span>
+            <div class="modal-header">
+                <h2>¡Cupones de Descuento!</h2>
+            </div>
+            
+            <div id="couponsContainer" class="coupons-container">
+                <!-- Los cupones se cargarán dinámicamente aquí -->
+            </div>
+            
+            <div class="coupons-info">
+                <p><i class="fas fa-info-circle"></i> Los cupones se renuevan cada 24 horas. ¡Cada cupón solo se puede usar una vez!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Funciones específicas para las secciones de Oversize y Boxfit
+        function filterOversizeProducts(category, sectionId) {
+            const productItems = document.querySelectorAll('#oversizeGrid .product-item');
+            const infoCard = document.querySelector('#oversizeGrid .product-item[style*="grid-column"]');
+            const tabButtons = document.querySelectorAll('#oversize-tabs .tab-btn');
+            
+            const topSellingColors = ['Blanco', 'Negro', 'Gris', 'Azul', 'Rojo'];
+            
+            // Hacer fade out de productos visibles
+            productItems.forEach(item => {
+                if (item !== infoCard && item.style.display !== 'none') {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(10px)';
+                }
+            });
+            
+            setTimeout(() => {
+                let productsToShow = [];
+                
+                productItems.forEach(item => {
+                    const productTitle = item.querySelector('h4');
+                    if (!productTitle || item === infoCard) return;
+                    
+                    const colorName = productTitle.textContent.replace('Color ', '');
+                    
+                    if (category === 'T-shirt Oversize') {
+                        productsToShow.push({item: item, color: colorName});
+                    } else if (category === 'Más Vendidos') {
+                        if (topSellingColors.includes(colorName)) {
+                            productsToShow.push(item);
+                        }
+                    } else if (category === 'Mejor Valorados') {
+                        const topRated = ['Negro', 'Blanco', 'Azul', 'Verde', 'Gris', 'Rojo'];
+                        if (topRated.includes(colorName)) {
+                            productsToShow.push(item);
+                        }
+                    }
+                });
+                
+                // Ordenar según la categoría
+                if (category === 'T-shirt Oversize') {
+                    const blancoItem = productsToShow.find(p => p.color === 'Blanco');
+                    const negroItem = productsToShow.find(p => p.color === 'Negro');
+                    const otrosItems = productsToShow.filter(p => p.color !== 'Blanco' && p.color !== 'Negro');
+                    
+                    otrosItems.sort((a, b) => a.color.localeCompare(b.color));
+                    
+                    productsToShow = [];
+                    if (blancoItem) productsToShow.push(blancoItem.item);
+                    if (negroItem) productsToShow.push(negroItem.item);
+                    otrosItems.forEach(p => productsToShow.push(p.item));
+                } else {
+                    productsToShow = shuffleArray(productsToShow);
+                }
+                
+                // Ocultar todos los productos primero
+                productItems.forEach(item => {
+                    if (item !== infoCard) {
+                        item.style.display = 'none';
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(10px)';
+                    }
+                });
+                
+                // Reorganizar el DOM y mostrar los productos seleccionados
+                const productsGrid = document.querySelector('#oversizeGrid');
+                
+                productsToShow.forEach(item => {
+                    if (item.parentNode) {
+                        item.parentNode.removeChild(item);
+                    }
+                });
+                
+                productsToShow.forEach((item, index) => {
+                    productsGrid.insertBefore(item, infoCard);
+                    
+                    setTimeout(() => {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 10);
+                    }, index * 80);
+                });
+                
+            }, 250);
+            
+            // Actualizar botones activos solo para esta sección
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`#oversize-tabs .tab-btn[onclick*="${category}"]`).classList.add('active');
+        }
+
+        function filterBoxfitProducts(category, sectionId) {
+            const productItems = document.querySelectorAll('#boxfitGrid .product-item');
+            const infoCard = document.querySelector('#boxfitGrid .product-item[style*="grid-column"]');
+            const tabButtons = document.querySelectorAll('#boxfit-tabs .tab-btn');
+            
+            const topSellingColors = ['Blanco', 'Negro', 'Gris', 'Azul', 'Rojo'];
+            
+            // Hacer fade out de productos visibles
+            productItems.forEach(item => {
+                if (item !== infoCard && item.style.display !== 'none') {
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(10px)';
+                }
+            });
+            
+            setTimeout(() => {
+                let productsToShow = [];
+                
+                productItems.forEach(item => {
+                    const productTitle = item.querySelector('h4');
+                    if (!productTitle || item === infoCard) return;
+                    
+                    const colorName = productTitle.textContent.replace('Color ', '');
+                    
+                    if (category === 'T-shirt Boxfit') {
+                        productsToShow.push({item: item, color: colorName});
+                    } else if (category === 'Más Vendidos') {
+                        if (topSellingColors.includes(colorName)) {
+                            productsToShow.push(item);
+                        }
+                    } else if (category === 'Mejor Valorados') {
+                        const topRated = ['Negro', 'Blanco', 'Azul', 'Verde', 'Gris', 'Rojo'];
+                        if (topRated.includes(colorName)) {
+                            productsToShow.push(item);
+                        }
+                    }
+                });
+                
+                // Ordenar según la categoría
+                if (category === 'T-shirt Boxfit') {
+                    const blancoItem = productsToShow.find(p => p.color === 'Blanco');
+                    const negroItem = productsToShow.find(p => p.color === 'Negro');
+                    const otrosItems = productsToShow.filter(p => p.color !== 'Blanco' && p.color !== 'Negro');
+                    
+                    otrosItems.sort((a, b) => a.color.localeCompare(b.color));
+                    
+                    productsToShow = [];
+                    if (blancoItem) productsToShow.push(blancoItem.item);
+                    if (negroItem) productsToShow.push(negroItem.item);
+                    otrosItems.forEach(p => productsToShow.push(p.item));
+                } else {
+                    productsToShow = shuffleArray(productsToShow);
+                }
+                
+                // Ocultar todos los productos primero
+                productItems.forEach(item => {
+                    if (item !== infoCard) {
+                        item.style.display = 'none';
+                        item.style.opacity = '0';
+                        item.style.transform = 'translateY(10px)';
+                    }
+                });
+                
+                // Reorganizar el DOM y mostrar los productos seleccionados
+                const productsGrid = document.querySelector('#boxfitGrid');
+                
+                productsToShow.forEach(item => {
+                    if (item.parentNode) {
+                        item.parentNode.removeChild(item);
+                    }
+                });
+                
+                productsToShow.forEach((item, index) => {
+                    productsGrid.insertBefore(item, infoCard);
+                    
+                    setTimeout(() => {
+                        item.style.display = 'block';
+                        setTimeout(() => {
+                            item.style.opacity = '1';
+                            item.style.transform = 'translateY(0)';
+                        }, 10);
+                    }, index * 80);
+                });
+                
+            }, 250);
+            
+            // Actualizar botones activos solo para esta sección
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`#boxfit-tabs .tab-btn[onclick*="${category}"]`).classList.add('active');
+        }
+
+        // Popular: elegir 3 productos al azar de todas las categorías
+        function populatePopular() {
+            const allItems = [];
+            // Playeras lisas (Q25)
+            const lisas = [
+                { name: 'Negro', id: 'negro', price: 25, display: 'Negro' },
+                { name: 'Blanco', id: 'blanco', price: 25, display: 'Blanco' },
+                { name: 'Azul', id: 'azul', price: 25, display: 'Azul' },
+                { name: 'Gris', id: 'gris', price: 25, display: 'Gris' },
+                { name: 'Rojo', id: 'rojo', price: 25, display: 'Rojo' },
+                { name: 'Amarillo', id: 'amarillo', price: 25, display: 'Amarillo' },
+                { name: 'Verde', id: 'verde', price: 25, display: 'Verde' }
+            ];
+            lisas.forEach(c => allItems.push({ productName: c.name, imageId: c.id, price: c.price, display: c.display }));
+
+            // Oversize (Q45)
+            const oversize = [
+                { name: 'Blanco Oversize', id: 'blanco', price: 45, display: 'Blanco (Oversize)' },
+                { name: 'Negro Oversize', id: 'negro', price: 45, display: 'Negro (Oversize)' },
+                { name: 'Azul Oversize', id: 'azul', price: 45, display: 'Azul (Oversize)' }
+            ];
+            oversize.forEach(c => allItems.push({ productName: c.name, imageId: c.id, price: c.price, display: c.display }));
+
+            // Boxfit (Q45)
+            const boxfit = [
+                { name: 'Blanco Boxfit', id: 'blanco', price: 45, display: 'Blanco (Boxfit)' },
+                { name: 'Negro Boxfit', id: 'negro', price: 45, display: 'Negro (Boxfit)' },
+                { name: 'Azul Boxfit', id: 'azul', price: 45, display: 'Azul (Boxfit)' }
+            ];
+            boxfit.forEach(c => allItems.push({ productName: c.name, imageId: c.id, price: c.price, display: c.display }));
+
+            // Mezclar y tomar 3
+            const shuffled = allItems.sort(() => Math.random() - 0.5).slice(0, 3);
+            const grid = document.getElementById('popularGrid');
+            grid.innerHTML = '';
+            shuffled.forEach(item => {
+                const card = document.createElement('div');
+                card.className = 'popular-card';
+                card.onclick = () => openCartModal(item.productName, item.imageId);
+                card.innerHTML = `
+                    <img src="./images/camisas lisas/${item.imageId}.png" alt="${item.display}">
+                    <div class="popular-info">
+                        <span class="popular-name">${item.display}</span>
+                        <span class="popular-price">Q${item.price}</span>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            updateOrdersBadge();
+            // Poblar sección Popular
+            populatePopular();
+        });
+    </script>
+</body>
+</html>
