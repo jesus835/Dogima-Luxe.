@@ -25,6 +25,9 @@
 
     <!-- Main Header -->
     <header class="main-header">
+        <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
         <div class="container">
             <div class="logo">
                 <h1>Dogima Luxe.</h1>
@@ -42,9 +45,6 @@
                 <div class="header-actions">
                 <i class="fas fa-user"></i>
                 <i class="fas fa-search desktop-only"></i>
-                <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
-                    <i class="fas fa-bars"></i>
-                </div>
                 <div class="cart-icon" onclick="openOrders()">
                     <i class="fas fa-receipt"></i>
                     <span class="badge" id="ordersBadge">0</span>
@@ -62,9 +62,18 @@
                 <ul>
                     <li><a href="#" onclick="closeMobileMenu()">Inicio</a></li>
                     <li><a href="store.html" onclick="closeMobileMenu()">Tienda</a></li>
-                    <li><a href="store.html#playeras" onclick="closeMobileMenu()">Playeras Lisas</a></li>
-                    <li><a href="store.html#oversize" onclick="closeMobileMenu()">T-shirt Oversize</a></li>
-                    <li><a href="store.html#boxfit" onclick="closeMobileMenu()">T-shirt Boxfit</a></li>
+                    <li><a href="store2.html" onclick="closeMobileMenu()">Todos los artículos</a></li>
+                    <li class="menu-category">
+                        <span class="category-title" onclick="toggleCategory()">
+                            Categorías
+                            <i class="fas fa-chevron-down category-arrow"></i>
+                        </span>
+                        <ul class="category-submenu" id="categorySubmenu">
+                            <li><a href="store.html#playeras" onclick="closeMobileMenu()">Playeras Lisas</a></li>
+                            <li><a href="store.html#oversize" onclick="closeMobileMenu()">T-shirt Oversize</a></li>
+                            <li><a href="store.html#boxfit" onclick="closeMobileMenu()">T-shirt Boxfit</a></li>
+                        </ul>
+                    </li>
                     <li><a href="https://wa.me/50257326695?text=Me%20gustaria%20mas%20informacion%20para%20surtir%20mi%20negocio" onclick="closeMobileMenu()">Contacto</a></li>
                 </ul>
             </div>
@@ -77,10 +86,10 @@
             <div class="hero-content">
                 <div class="hero-text">
                     <h2 class="season-sale">Venta de Temporada</h2>
-                    <h1>MODA MASCULINA</h1>
-                    <p class="discount">Mín. 35-70% de Descuento</p>
+                    <h1>Dogima Luxe.</h1>
+                    <p class="discount">Descuentos Todos los Días</p>
                     <div class="hero-buttons">
-                        <button class="btn btn-primary" onclick="window.location.href='store.html'">COMPRAR AHORA</button>
+                        <button class="btn btn-primary" onclick="window.location.href='store.html'">TIENDA</button>
                         <button class="btn btn-secondary" onclick="window.location.href='store.html'">MAS PRODUCTOS</button>
                     </div>
                 </div>
@@ -91,46 +100,259 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="features-section">
+    <!-- Featured Products Section -->
+    <section class="featured-products">
         <div class="container">
-            <div class="features-grid">
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-truck"></i>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Envío Gratis</h4>
-                        <p>En Todas las Órdenes Sobre $50</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Pago Seguro</h4>
-                        <p>Garantizamos pago seguro</p>
-                    </div>
-                </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-undo"></i>
-                    </div>
-                    <div class="feature-text">
-                        <h4>100% Devolución de Dinero</h4>
-                        <p>Política de Devolución 30 Días</p>
+            <h2>Productos Destacados</h2>
+            <div class="product-tabs">
+                <button class="tab-btn active">Playeras Lisas</button>
+                <button class="tab-btn">Más Vendidos</button>
+                <button class="tab-btn">Mejor Valorados</button>
+            </div>
+            <div class="products-grid">
+                <!-- Camisas por color -->
+                <div class="product-item" onclick="openProductImageModal('Blanco', 'blanco')" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/blanco.png" alt="Playera Blanca">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Blanco</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Blanco', 'blanco')">Agregar al Carrito</button>
                     </div>
                 </div>
-                <div class="feature-item">
-                    <div class="feature-icon">
-                        <i class="fas fa-headset"></i>
-                    </div>
-                    <div class="feature-text">
-                        <h4>Soporte Online</h4>
-                        <p>Soporte Dedicado 24/7</p>
+                <div class="product-item" onclick="openProductImageModal('Negro', 'negro')" style="opacity: 1; transform: translateY(0px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/negro.png" alt="Playera Negra">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Negro</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Negro', 'negro')">Agregar al Carrito</button>
                     </div>
                 </div>
+                <div class="product-item" onclick="openProductImageModal('Celeste', 'celesteclaro')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/celesteclaro.png" alt="Playera Celeste">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Celeste</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Celeste', 'celesteclaro')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductImageModal('Rojo', 'rojo')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/rojo.png" alt="Playera Roja">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Rojo</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Rojo', 'rojo')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductImageModal('Verde', 'verde')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/verde.png" alt="Playera Verde">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Verde</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Verde', 'verde')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductImageModal('Gris', 'gris')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/gris.png" alt="Playera Gris">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Gris</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Gris', 'gris')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductImageModal('Azul', 'azul')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/azul.png" alt="Playera Azul">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Azul</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Azul', 'azul')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductImageModal('Amarillo', 'amarillo')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/amarillo.png" alt="Playera Amarilla">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Amarillo</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Amarillo', 'amarillo')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <!-- Colores adicionales -->
+                <div class="product-item" onclick="openProductImageModal('Naranja', 'naranja')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/naranja.png" alt="Playera Naranja">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Naranja</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Naranja', 'naranja')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductImageModal('Corinto', 'corinto')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/corinto.png" alt="Playera Corinto">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Corinto</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Corinto', 'corinto')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductImageModal('Fucsia', 'fusia')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/fusia.png" alt="Playera Fucsia">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Fucsia</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Fucsia', 'fusia')">Agregar al Carrito</button>
+                    </div>
+                </div>
+                <div class="product-item" onclick="openProductImageModal('Verde Militar', 'verdemilitar')" style="opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <img src="./images/camisas lisas/verdemilitar.png" alt="Playera Verde Militar">
+                    <div class="product-details">
+                        <span class="product-category">Playeras Lisas</span>
+                        <h4>Color Verde Militar</h4>
+                        <div class="price">
+                            <span class="current-price">Q25</span>
+                        </div>
+                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Verde Militar', 'verdemilitar')">Agregar al Carrito</button>
+                    </div>
+                </div>
+
+                <!-- Ficha técnica -->
+                <div class="product-item" style="grid-column: 1 / -1; opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s;">
+                    <div class="product-details">
+                        <span class="product-category">Información</span>
+                        <h4>Playeras Lisas - Tallas, Colores y Precios</h4>
+                        <p>Disponibles en tallas: S, M, L y XL</p>
+                        <p>Algodón en hilo 22</p>
+                        <p><strong>Colores:</strong> Blanco, Negro, Azul, Azul nacional, Azul marino, Gris rata, Gris claro, Amarillo, Fucsia, Verde botella, Verde perico, Verde militar, Beige, Rojo, Celeste, Rosado</p>
+                        <p><strong>Precio:</strong> Unidad Q25 — Docena Q18</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Hoodie Section -->
+    <section class="hoodie-section">
+        <div class="container">
+            <div class="hoodie-content">
+                <div class="hoodie-text">
+                    <h2>T-shirt Oversize</h2>
+                    <p>Explora nuestra amplia gama de productos, tenemos todo lo que necesitas. Descubre lo último en soluciones que se adaptan a tu estilo de vida. Encuentra todo en un solo lugar y vive una experiencia de compra incomparable.</p>
+                    <button class="btn-ver-mas" onclick="window.location.href='store.html#oversize'">VER MÁS</button>
+                </div>
+                <div class="hoodie-product">
+                    <div class="product-card">
+                        <img src="./images/overside/blanco.jpg" alt="T-shirt Oversize Blanco" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- T-shirt Boxfit Section -->
+    <section class="boxfit-section">
+        <div class="container">
+            <div class="boxfit-content">
+                <div class="boxfit-product">
+                    <div class="product-card">
+                        <img src="./images/T-shirt Boxifit/negro.jpg" alt="T-shirt Boxfit Negro" />
+                    </div>
+                </div>
+                <div class="boxfit-text">
+                    <h2>T-shirt Boxfit</h2>
+                    <p>Descubre la comodidad perfecta con nuestras playeras Boxfit. Diseñadas para ofrecer un ajuste moderno y cómodo, perfectas para cualquier ocasión. Calidad premium que se adapta a tu estilo de vida activo.</p>
+                    <button class="btn-ver-mas" onclick="window.location.href='store.html#boxfit'">VER MÁS</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mejores Precios Section -->
+    <section class="mejores-precios-section">
+        <div class="container">
+            <div class="precios-header">
+                <h2>Conoce nuestros mejores precios</h2>
+                <a href="store2.html" class="ver-todos">VER TODOS</a>
+            </div>
+            <div class="productos-carousel">
+                <button class="carousel-btn prev-btn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div class="productos-container">
+                    <div class="producto-card">
+                        <img src="./images/camisas lisas/blanco.png" alt="Playera Blanca">
+                        <div class="producto-info">
+                            <h4>Playera Básica Blanca</h4>
+                            <p class="precio">Q25.00</p>
+                        </div>
+                        <button class="add-cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                    <div class="producto-card">
+                        <img src="./images/camisas lisas/negro.png" alt="Playera Negra">
+                        <div class="producto-info">
+                            <h4>T-shirt Básica Negra</h4>
+                            <p class="precio">Q25.00</p>
+                        </div>
+                        <button class="add-cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                    <div class="producto-card">
+                        <img src="./images/camisas lisas/azul.png" alt="Playera Azul">
+                        <div class="producto-info">
+                            <h4>T-shirt Casual Azul</h4>
+                            <p class="precio">Q25.00</p>
+                        </div>
+                        <button class="add-cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                    <div class="producto-card">
+                        <img src="./images/camisas lisas/rojo.png" alt="Playera Roja">
+                        <div class="producto-info">
+                            <h4>T-shirt Básica Roja</h4>
+                            <p class="precio">Q25.00</p>
+                        </div>
+                        <button class="add-cart-btn">
+                            <i class="fas fa-shopping-cart"></i>
+                        </button>
+                    </div>
+                </div>
+                <button class="carousel-btn next-btn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
             </div>
         </div>
     </section>
@@ -176,199 +398,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-
-    <!-- Featured Products Section -->
-    <section class="featured-products">
-        <div class="container">
-            <h2>Productos Destacados</h2>
-            <div class="product-tabs">
-                <button class="tab-btn active">Playeras Lisas</button>
-                <button class="tab-btn">Más Vendidos</button>
-                <button class="tab-btn">Mejor Valorados</button>
-            </div>
-            <div class="products-grid">
-                <!-- Camisas por color -->
-                <div class="product-item" onclick="openProductImageModal('Blanco', 'blanco')">
-                    <img src="./images/camisas lisas/blanco.png" alt="Playera Blanca">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Blanco</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Blanco', 'blanco')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Negro', 'negro')">
-                    <img src="./images/camisas lisas/negro.png" alt="Playera Negra">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Negro</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Negro', 'negro')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Celeste', 'celesteclaro')">
-                    <img src="./images/camisas lisas/celesteclaro.png" alt="Playera Celeste">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Celeste</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Celeste', 'celesteclaro')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Rojo', 'rojo')">
-                    <img src="./images/camisas lisas/rojo.png" alt="Playera Roja">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Rojo</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Rojo', 'rojo')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Verde', 'verde')">
-                    <img src="./images/camisas lisas/verde.png" alt="Playera Verde">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Verde</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Verde', 'verde')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Gris', 'gris')">
-                    <img src="./images/camisas lisas/gris.png" alt="Playera Gris">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Gris</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Gris', 'gris')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Azul', 'azul')">
-                    <img src="./images/camisas lisas/azul.png" alt="Playera Azul">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Azul</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Azul', 'azul')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Amarillo', 'amarillo')">
-                    <img src="./images/camisas lisas/amarillo.png" alt="Playera Amarilla">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Amarillo</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Amarillo', 'amarillo')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <!-- Colores adicionales -->
-                <div class="product-item" onclick="openProductImageModal('Naranja', 'naranja')">
-                    <img src="./images/camisas lisas/naranja.png" alt="Playera Naranja">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Naranja</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Naranja', 'naranja')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Corinto', 'corinto')">
-                    <img src="./images/camisas lisas/corinto.png" alt="Playera Corinto">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Corinto</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Corinto', 'corinto')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Fucsia', 'fusia')">
-                    <img src="./images/camisas lisas/fusia.png" alt="Playera Fucsia">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Fucsia</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Fucsia', 'fusia')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Verde Militar', 'verdemilitar')">
-                    <img src="./images/camisas lisas/verdemilitar.png" alt="Playera Verde Militar">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Verde Militar</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Verde Militar', 'verdemilitar')">Agregar al Carrito</button>
-                    </div>
-                </div>
-
-                <!-- Ficha técnica -->
-                <div class="product-item" style="grid-column: 1 / -1;">
-                    <div class="product-details">
-                        <span class="product-category">Información</span>
-                        <h4>Playeras Lisas - Tallas, Colores y Precios</h4>
-                        <p>Disponibles en tallas: S, M, L y XL</p>
-                        <p>Algodón en hilo 22</p>
-                        <p><strong>Colores:</strong> Blanco, Negro, Azul, Azul nacional, Azul marino, Gris rata, Gris claro, Amarillo, Fucsia, Verde botella, Verde perico, Verde militar, Beige, Rojo, Celeste, Rosado</p>
-                        <p><strong>Precio:</strong> Unidad Q25 — Docena Q18</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Bottom Banner Section -->
-    <section class="bottom-banners">
-        <div class="container">
-            <div class="banner-grid">
-                <div class="banner-item">
-                    <div class="banner-content">
-                        <span class="banner-label">Venta de Fin de Semana</span>
-                        <h3>Moda Masculina</h3>
-                        <p>70% de descuento fijo</p>
-                        <button class="btn btn-small">Comprar Ahora ></button>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Moda Masculina">
-                </div>
-                <div class="banner-item">
-                    <div class="banner-content">
-                        <span class="banner-label">Estilo de Moda</span>
-                        <h3>Ropa Femenina</h3>
-                        <p>Mín. 35-70% de descuento</p>
-                        <button class="btn btn-small">Comprar Ahora ></button>
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1494790108755-2616c045e4e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=400&q=80" alt="Ropa Femenina">
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Featured Categories -->
-    <section class="featured-categories">
-        <div class="container">
-            <h2>Categorías Destacadas</h2>
         </div>
     </section>
 
@@ -576,6 +605,203 @@
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="main-footer">
+        <div class="footer-top">
+            <figure class="footer-brand">
+                <a href="/" class="footer-logo">
+                    <h2>Dogima Luxe.</h2>
+                </a>
+                <div class="social-links">
+                    <a href="https://www.facebook.com/" target="_blank" aria-label="Facebook" class="social-link">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.instagram.com/" target="_blank" aria-label="Instagram" class="social-link">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://www.tiktok.com/" target="_blank" aria-label="TikTok" class="social-link">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+                <div class="help-button-container">
+                    <button type="button" class="help-button">
+                        ¿Necesitas ayuda?
+                        <i class="fas fa-headphones"></i>
+                    </button>
+                </div>
+            </figure>
+            
+            <div class="footer-info">
+                <div class="contact-info">
+                    <div class="contact-details">
+                        <p class="contact-title">Contáctanos</p>
+                        <p class="contact-phone">+502 5732-6695</p>
+                        <p class="contact-email">info@dogimaluxe.com</p>
+                    </div>
+                    <div class="footer-links">
+                        <p>Consulta los <a href="/terminos-y-condiciones" class="footer-link">Términos y condiciones</a> de la tienda.</p>
+                    </div>
+                    <hr class="footer-divider">
+                    <p class="footer-legal">
+                        Al crear una cuenta, aceptas nuestros 
+                        <a href="/terminos-y-condiciones" class="footer-link" target="_blank">Términos y condiciones</a> 
+                        <span>y las normas de <a href="/politica-de-privacidad" target="_blank" class="footer-link">Políticas de tratamiento de datos</a> de Dogima Luxe</span>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom"></div>
+    </footer>
+
     <script src="script.js"></script>
+    <script>
+        // Función para toggle de categorías en menú móvil
+        function toggleCategory() {
+            const submenu = document.getElementById('categorySubmenu');
+            const arrow = document.querySelector('.category-arrow');
+            
+            if (submenu && arrow) {
+                submenu.classList.toggle('expanded');
+                arrow.classList.toggle('rotated');
+            }
+        }
+    </script>
+    <script>
+        // Aleatorizar productos inmediatamente
+        function shuffleProducts() {
+            console.log('🔄 Iniciando barajado de productos...');
+            const productsGrid = document.querySelector('.products-grid');
+            if (productsGrid) {
+                const allItems = Array.from(productsGrid.children);
+                console.log('📦 Total de items encontrados:', allItems.length);
+                
+                // Separar productos de la ficha técnica
+                const productCards = [];
+                let infoCard = null;
+                
+                allItems.forEach((item, index) => {
+                    const categorySpan = item.querySelector('.product-category');
+                    const h4 = item.querySelector('h4');
+                    const productName = h4 ? h4.textContent : 'Sin nombre';
+                    
+                    if (categorySpan && categorySpan.textContent.includes('Información')) {
+                        console.log(`ℹ️  Ficha técnica encontrada: ${productName}`);
+                        infoCard = item;
+                    } else if (item.classList.contains('product-item') && item.querySelector('img')) {
+                        console.log(`🎨 Producto agregado: ${productName} (posición original: ${index})`);
+                        productCards.push(item);
+                    }
+                });
+                
+                console.log('🎨 Total productos para barajar:', productCards.length);
+                console.log('📋 Orden ANTES del barajado:');
+                productCards.forEach((card, i) => {
+                    const name = card.querySelector('h4')?.textContent || 'Sin nombre';
+                    console.log(`  ${i}: ${name}`);
+                });
+                
+                // Barajar usando Fisher-Yates
+                for (let i = productCards.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    console.log(`🔀 Intercambiando posición ${i} con ${j}`);
+                    [productCards[i], productCards[j]] = [productCards[j], productCards[i]];
+                }
+                
+                console.log('📋 Orden DESPUÉS del barajado:');
+                productCards.forEach((card, i) => {
+                    const name = card.querySelector('h4')?.textContent || 'Sin nombre';
+                    console.log(`  ${i}: ${name}`);
+                });
+                
+                // Reconstruir el grid
+                productsGrid.innerHTML = '';
+                
+                // Agregar productos barajados
+                productCards.forEach((card, index) => {
+                    const name = card.querySelector('h4')?.textContent || 'Sin nombre';
+                    console.log(`➕ Agregando al DOM: ${name} en posición ${index}`);
+                    productsGrid.appendChild(card);
+                });
+                
+                // Crear copias para navegación circular bidireccional
+                const clonedStart = [];
+                const clonedEnd = [];
+                
+                // Clonar al inicio (para scroll hacia izquierda)
+                productCards.forEach(card => {
+                    const clonedCard = card.cloneNode(true);
+                    clonedCard.classList.add('cloned-start');
+                    clonedStart.push(clonedCard);
+                });
+                
+                // Clonar al final (para scroll hacia derecha)
+                productCards.forEach(card => {
+                    const clonedCard = card.cloneNode(true);
+                    clonedCard.classList.add('cloned-end');
+                    clonedEnd.push(clonedCard);
+                });
+                
+                // Reorganizar: clones-inicio + originales + clones-final
+                productsGrid.innerHTML = '';
+                clonedStart.forEach(card => productsGrid.appendChild(card));
+                productCards.forEach(card => productsGrid.appendChild(card));
+                clonedEnd.forEach(card => productsGrid.appendChild(card));
+                
+                // Configurar scroll circular bidireccional
+                const cardWidth = 320 + 20; // ancho + gap
+                const totalOriginalWidth = productCards.length * cardWidth;
+                let isScrolling = false;
+                
+                // Posicionar en el centro (productos originales)
+                productsGrid.scrollLeft = totalOriginalWidth;
+                
+                productsGrid.addEventListener('scroll', () => {
+                    if (isScrolling) return;
+                    
+                    // Si llegó al final (clones-final)
+                    if (productsGrid.scrollLeft >= totalOriginalWidth * 2) {
+                        isScrolling = true;
+                        productsGrid.scrollLeft = totalOriginalWidth;
+                        setTimeout(() => isScrolling = false, 50);
+                    }
+                    // Si llegó al inicio (clones-inicio)
+                    else if (productsGrid.scrollLeft <= 0) {
+                        isScrolling = true;
+                        productsGrid.scrollLeft = totalOriginalWidth;
+                        setTimeout(() => isScrolling = false, 50);
+                    }
+                });
+                
+                // Mostrar el grid después del barajado
+                productsGrid.classList.add('ready');
+                
+                // También mostrar la sección de Oversize
+                const oversizeGrid = document.querySelector('#oversizeGrid');
+                if (oversizeGrid) {
+                    oversizeGrid.classList.add('ready');
+                }
+                
+                // Hacer scroll horizontal solo dentro del carrusel
+                setTimeout(() => {
+                    const randomIndex = Math.floor(Math.random() * productCards.length);
+                    if (randomIndex > 0 && window.innerWidth <= 768) {
+                        const cardWidth = 320 + 20; // ancho + gap
+                        const scrollPosition = randomIndex * cardWidth;
+                        productsGrid.scrollLeft = scrollPosition;
+                        console.log(`🎯 Carrusel scroll horizontal a posición: ${scrollPosition}px (producto ${randomIndex})`);
+                    }
+                }, 100);
+                
+                console.log('✅ Barajado completado y grid mostrado');
+            }
+        }
+        
+        // Ejecutar cuando el DOM esté listo
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', shuffleProducts);
+        } else {
+            shuffleProducts();
+        }
+    </script>
 </body>
 </html>

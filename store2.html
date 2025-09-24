@@ -96,378 +96,518 @@
         </div>
     </header>
 
-    <!-- Promotional Banner (solo en móvil) -->
-    <section class="promo-banner mobile-only">
-        <div class="container">
-            <div class="banner-content">
-                <div class="banner-text">
-                    <h2>Nueva Colección</h2>
-                    <p>Descuento 28% en la compra de 12 unidades</p>
-                    <button class="btn-shop-now">Comprar Ahora</button>
-                </div>
-                <div class="banner-image">
-                    <img src="./images/modelbanner.png" alt="Modelo">
-                </div>
-            </div>
-            <div class="banner-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-            </div>
-        </div>
-    </section>
 
-    <!-- Categories Section (solo en móvil) -->
-    <section class="categories-section mobile-only">
-        <div class="container">
-            <div class="section-header">
-                <h3>Categorías</h3>
-            </div>
-            <div class="categories-grid">
-                <div class="category-item">
-                    <a href="#playeras" style="text-decoration:none; color: inherit;">
-                        <div class="category-icon">
-                            <i class="fas fa-tshirt"></i>
-                        </div>
-                        <span>Playeras Lisas</span>
-                    </a>
-                </div>
-                <div class="category-item">
-                    <a href="#oversize" style="text-decoration:none; color: inherit;">
-                        <div class="category-icon">
-                            <i class="fas fa-user-tie"></i>
-                        </div>
-                        <span>T-shirt Oversize</span>
-                    </a>
-                </div>
-                <div class="category-item">
-                    <a href="#boxfit" style="text-decoration:none; color: inherit;">
-                        <div class="category-icon">
-                            <i class="fas fa-box"></i>
-                        </div>
-                        <span>T-shirt Boxfit</span>
-                    </a>
-                </div>
-                <div class="category-item">
-                    <a href="store2.html" style="text-decoration:none; color: inherit;">
-                        <div class="category-icon">
-                            <i class="fas fa-th-large"></i>
-                        </div>
-                        <span>Todos</span>
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Popular Section (solo en móvil) -->
-    <section class="popular-section mobile-only">
-        <div class="container">
-            <div class="section-header">
-                <h3>Popular</h3>
-            </div>
-            <div class="popular-grid" id="popularGrid">
-                <!-- Items populares se cargarán por JS -->
-            </div>
-        </div>
-    </section>
 
     <!-- Playeras Lisas Section -->
-    <section class="featured-products" id="playeras">
+    <section class="playeras-section" id="playeras">
         <div class="container">
-            <h2>Playeras Lisas</h2>
-            <div class="product-tabs" id="playeras-tabs">
-                <button class="tab-btn active" onclick="filterPlayerasProducts('Playeras Lisas', 'playeras')">Playeras Lisas</button>
-                <button class="tab-btn" onclick="filterPlayerasProducts('Más Vendidos', 'playeras')">Más Vendidos</button>
-                <button class="tab-btn" onclick="filterPlayerasProducts('Mejor Valorados', 'playeras')">Mejor Valorados</button>
+            <div class="section-header">
+                <div class="back-arrow" onclick="window.location.href='store.html'">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Atrás</span>
+                </div>
+                <h2>Todos los productos</h2>
             </div>
-            <div class="products-grid">
-                <!-- Playeras Lisas -->
-                <div class="product-item" onclick="openProductImageModal('Blanco', 'blanco')">
-                    <img src="./images/camisas lisas/blanco.png" alt="Playera Blanca">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Blanco</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
+            <div class="products-count">
+                <span>20 productos</span>
+            </div>
+            <div class="playeras-grid">
+                <div class="playera-card" onclick="openProductImageModal('Blanco', 'blanco')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/blanco.png" alt="Playera Blanca">
+                        <div class="star-badge">
+                            <i class="fas fa-star"></i>
                         </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Blanco', 'blanco')">Agregar al Carrito</button>
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Blanco', 'blanco')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
                     </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Negro', 'negro')">
-                    <img src="./images/camisas lisas/negro.png" alt="Playera Negra">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Negro</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Negro', 'negro')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Celeste', 'celesteclaro')">
-                    <img src="./images/camisas lisas/celesteclaro.png" alt="Playera Celeste">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Celeste</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Celeste', 'celesteclaro')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Rojo', 'rojo')">
-                    <img src="./images/camisas lisas/rojo.png" alt="Playera Roja">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Rojo</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Rojo', 'rojo')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Verde', 'verde')">
-                    <img src="./images/camisas lisas/verde.png" alt="Playera Verde">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Verde</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Verde', 'verde')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Gris', 'gris')">
-                    <img src="./images/camisas lisas/gris.png" alt="Playera Gris">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Gris</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Gris', 'gris')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Azul', 'azul')">
-                    <img src="./images/camisas lisas/azul.png" alt="Playera Azul">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Azul</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Azul', 'azul')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Amarillo', 'amarillo')">
-                    <img src="./images/camisas lisas/amarillo.png" alt="Playera Amarilla">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Amarillo</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Amarillo', 'amarillo')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Naranja', 'naranja')">
-                    <img src="./images/camisas lisas/naranja.png" alt="Playera Naranja">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Naranja</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Naranja', 'naranja')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Corinto', 'corinto')">
-                    <img src="./images/camisas lisas/corinto.png" alt="Playera Corinto">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Corinto</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Corinto', 'corinto')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Fucsia', 'fusia')">
-                    <img src="./images/camisas lisas/fusia.png" alt="Playera Fucsia">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Fucsia</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Fucsia', 'fusia')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Verde Militar', 'verdemilitar')">
-                    <img src="./images/camisas lisas/verdemilitar.png" alt="Playera Verde Militar">
-                    <div class="product-details">
-                        <span class="product-category">Playeras Lisas</span>
-                        <h4>Color Verde Militar</h4>
-                        <div class="price">
-                            <span class="current-price">Q25</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Verde Militar', 'verdemilitar')">Agregar al Carrito</button>
+                    <div class="playera-info">
+                        <h4>COLOR BLANCO</h4>
+                        <div class="playera-price">Q25.00</div>
                     </div>
                 </div>
 
-                <!-- Ficha técnica Playeras Lisas -->
-                <div class="product-item info-card" style="grid-column: 1 / -1;">
+                <div class="playera-card" onclick="openProductImageModal('Negro', 'negro')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/negro.png" alt="Playera Negra">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Negro', 'negro')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR NEGRO</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- T-shirt Oversize Section -->
-    <section class="featured-products" style="background: #f8f9fa;" id="oversize">
-        <div class="container">
-            <h2>T-shirt Oversize</h2>
-            <div class="product-tabs" id="oversize-tabs">
-                <button class="tab-btn active" onclick="filterOversizeProducts('T-shirt Oversize', 'oversize')">T-shirt Oversize</button>
-                <button class="tab-btn" onclick="filterOversizeProducts('Más Vendidos', 'oversize')">Más Vendidos</button>
-                <button class="tab-btn" onclick="filterOversizeProducts('Mejor Valorados', 'oversize')">Mejor Valorados</button>
-            </div>
-            <div class="products-grid" id="oversizeGrid">
+                <div class="playera-card" onclick="openProductImageModal('Celeste', 'celesteclaro')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/celesteclaro.png" alt="Playera Celeste">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Celeste', 'celesteclaro')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR CELESTE</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Rojo', 'rojo')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/rojo.png" alt="Playera Roja">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Rojo', 'rojo')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR ROJO</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Verde', 'verde')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/verde.png" alt="Playera Verde">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Verde', 'verde')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR VERDE</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Gris', 'gris')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/gris.png" alt="Playera Gris">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Gris', 'gris')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR GRIS</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Azul', 'azul')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/azul.png" alt="Playera Azul">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Azul', 'azul')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR AZUL</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Amarillo', 'amarillo')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/amarillo.png" alt="Playera Amarilla">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Amarillo', 'amarillo')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR AMARILLO</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Naranja', 'naranja')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/naranja.png" alt="Playera Naranja">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Naranja', 'naranja')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR NARANJA</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Corinto', 'corinto')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/corinto.png" alt="Playera Corinto">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Corinto', 'corinto')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR CORINTO</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Fucsia', 'fusia')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/fusia.png" alt="Playera Fucsia">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Fucsia', 'fusia')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR FUCSIA</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Verde Militar', 'verdemilitar')">
+                    <div class="playera-image">
+                        <img src="./images/camisas lisas/verdemilitar.png" alt="Playera Verde Militar">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Verde Militar', 'verdemilitar')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>COLOR VERDE MILITAR</h4>
+                        <div class="playera-price">Q25.00</div>
+                    </div>
+                </div>
+
                 <!-- T-shirt Oversize -->
-                <div class="product-item" onclick="openProductImageModal('Blanco Oversize', './images/overside/blanco.jpg')">
-                    <img src="./images/overside/blanco.jpg" alt="T-shirt Oversize Blanca">
-                    <div class="product-details">
-                        <span class="product-category">T-shirt Oversize</span>
-                        <h4>Color Blanco</h4>
-                        <div class="price">
-                            <span class="current-price">Q45</span>
+                <div class="playera-card" onclick="openProductImageModal('Blanco Oversize', './images/overside/blanco.jpg')">
+                    <div class="playera-image">
+                        <img src="./images/overside/blanco.jpg" alt="T-shirt Oversize Blanca">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Blanco Oversize', './images/overside/blanco.jpg')">
+                            <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Blanco Oversize', './images/overside/blanco.jpg')">Agregar al Carrito</button>
                     </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Negro Oversize', './images/overside/negro.jpg')">
-                    <img src="./images/overside/negro.jpg" alt="T-shirt Oversize Negra">
-                    <div class="product-details">
-                        <span class="product-category">T-shirt Oversize</span>
-                        <h4>Color Negro</h4>
-                        <div class="price">
-                            <span class="current-price">Q45</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Negro Oversize', './images/overside/negro.jpg')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Beige Oversize', './images/overside/beige.jpg')">
-                    <img src="./images/overside/beige.jpg" alt="T-shirt Oversize Beige">
-                    <div class="product-details">
-                        <span class="product-category">T-shirt Oversize</span>
-                        <h4>Color Beige</h4>
-                        <div class="price">
-                            <span class="current-price">Q45</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Beige Oversize', './images/overside/beige.jpg')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Crema Oversize', './images/overside/crema.jpg')">
-                    <img src="./images/overside/crema.jpg" alt="T-shirt Oversize Crema">
-                    <div class="product-details">
-                        <span class="product-category">T-shirt Oversize</span>
-                        <h4>Color Crema</h4>
-                        <div class="price">
-                            <span class="current-price">Q45</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Crema Oversize', './images/overside/crema.jpg')">Agregar al Carrito</button>
+                    <div class="playera-info">
+                        <h4>BLANCO OVERSIZE</h4>
+                        <div class="playera-price">Q45.00</div>
                     </div>
                 </div>
 
-                <!-- Ficha técnica T-shirt Oversize -->
-                <div class="product-item" style="grid-column: 1 / -1;">
+                <div class="playera-card" onclick="openProductImageModal('Negro Oversize', './images/overside/negro.jpg')">
+                    <div class="playera-image">
+                        <img src="./images/overside/negro.jpg" alt="T-shirt Oversize Negra">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Negro Oversize', './images/overside/negro.jpg')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>NEGRO OVERSIZE</h4>
+                        <div class="playera-price">Q45.00</div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- T-shirt Boxfit Section -->
-    <section class="featured-products" id="boxfit">
-        <div class="container">
-            <h2>T-shirt Boxfit</h2>
-            <div class="product-tabs" id="boxfit-tabs">
-                <button class="tab-btn active" onclick="filterBoxfitProducts('T-shirt Boxfit', 'boxfit')">T-shirt Boxfit</button>
-                <button class="tab-btn" onclick="filterBoxfitProducts('Más Vendidos', 'boxfit')">Más Vendidos</button>
-                <button class="tab-btn" onclick="filterBoxfitProducts('Mejor Valorados', 'boxfit')">Mejor Valorados</button>
-            </div>
-            <div class="products-grid" id="boxfitGrid">
+                <div class="playera-card" onclick="openProductImageModal('Beige Oversize', './images/overside/beige.jpg')">
+                    <div class="playera-image">
+                        <img src="./images/overside/beige.jpg" alt="T-shirt Oversize Beige">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Beige Oversize', './images/overside/beige.jpg')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>BEIGE OVERSIZE</h4>
+                        <div class="playera-price">Q45.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Crema Oversize', './images/overside/crema.jpg')">
+                    <div class="playera-image">
+                        <img src="./images/overside/crema.jpg" alt="T-shirt Oversize Crema">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Crema Oversize', './images/overside/crema.jpg')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>CREMA OVERSIZE</h4>
+                        <div class="playera-price">Q45.00</div>
+                    </div>
+                </div>
+
                 <!-- T-shirt Boxfit -->
-                <div class="product-item" onclick="openProductImageModal('Blanco Boxfit', './images/T-shirt Boxifit/blanco.jpg')">
-                    <img src="./images/T-shirt Boxifit/blanco.jpg" alt="T-shirt Boxfit Blanca">
-                    <div class="product-details">
-                        <span class="product-category">T-shirt Boxfit</span>
-                        <h4>Color Blanco</h4>
-                        <div class="price">
-                            <span class="current-price">Q45</span>
+                <div class="playera-card" onclick="openProductImageModal('Blanco Boxfit', './images/T-shirt Boxifit/blanco.jpg')">
+                    <div class="playera-image">
+                        <img src="./images/T-shirt Boxifit/blanco.jpg" alt="T-shirt Boxfit Blanca">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Blanco Boxfit', './images/T-shirt Boxifit/blanco.jpg')">
+                            <i class="fas fa-shopping-cart"></i>
                         </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Blanco Boxfit', './images/T-shirt Boxifit/blanco.jpg')">Agregar al Carrito</button>
                     </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Negro Boxfit', './images/T-shirt Boxifit/negro.jpg')">
-                    <img src="./images/T-shirt Boxifit/negro.jpg" alt="T-shirt Boxfit Negra">
-                    <div class="product-details">
-                        <span class="product-category">T-shirt Boxfit</span>
-                        <h4>Color Negro</h4>
-                        <div class="price">
-                            <span class="current-price">Q45</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Negro Boxfit', './images/T-shirt Boxifit/negro.jpg')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Beige Boxfit', './images/T-shirt Boxifit/beige.jpg')">
-                    <img src="./images/T-shirt Boxifit/beige.jpg" alt="T-shirt Boxfit Beige">
-                    <div class="product-details">
-                        <span class="product-category">T-shirt Boxfit</span>
-                        <h4>Color Beige</h4>
-                        <div class="price">
-                            <span class="current-price">Q45</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Beige Boxfit', './images/T-shirt Boxifit/beige.jpg')">Agregar al Carrito</button>
-                    </div>
-                </div>
-                <div class="product-item" onclick="openProductImageModal('Crema Boxfit', './images/T-shirt Boxifit/crema.jpg')">
-                    <img src="./images/T-shirt Boxifit/crema.jpg" alt="T-shirt Boxfit Crema">
-                    <div class="product-details">
-                        <span class="product-category">T-shirt Boxfit</span>
-                        <h4>Color Crema</h4>
-                        <div class="price">
-                            <span class="current-price">Q45</span>
-                        </div>
-                        <button class="btn-cart" onclick="event.stopPropagation(); openCartModal('Crema Boxfit', './images/T-shirt Boxifit/crema.jpg')">Agregar al Carrito</button>
+                    <div class="playera-info">
+                        <h4>BLANCO BOXFIT</h4>
+                        <div class="playera-price">Q45.00</div>
                     </div>
                 </div>
 
-                <!-- Ficha técnica T-shirt Boxfit -->
-                <div class="product-item" style="grid-column: 1 / -1;">
+                <div class="playera-card" onclick="openProductImageModal('Negro Boxfit', './images/T-shirt Boxifit/negro.jpg')">
+                    <div class="playera-image">
+                        <img src="./images/T-shirt Boxifit/negro.jpg" alt="T-shirt Boxfit Negra">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Negro Boxfit', './images/T-shirt Boxifit/negro.jpg')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>NEGRO BOXFIT</h4>
+                        <div class="playera-price">Q45.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Beige Boxfit', './images/T-shirt Boxifit/beige.jpg')">
+                    <div class="playera-image">
+                        <img src="./images/T-shirt Boxifit/beige.jpg" alt="T-shirt Boxfit Beige">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Beige Boxfit', './images/T-shirt Boxifit/beige.jpg')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>BEIGE BOXFIT</h4>
+                        <div class="playera-price">Q45.00</div>
+                    </div>
+                </div>
+
+                <div class="playera-card" onclick="openProductImageModal('Crema Boxfit', './images/T-shirt Boxifit/crema.jpg')">
+                    <div class="playera-image">
+                        <img src="./images/T-shirt Boxifit/crema.jpg" alt="T-shirt Boxfit Crema">
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openCartModal('Crema Boxfit', './images/T-shirt Boxifit/crema.jpg')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>CREMA BOXFIT</h4>
+                        <div class="playera-price">Q45.00</div>
+                    </div>
                 </div>
             </div>
         </div>
+        
+        <style>
+            .store-page .playeras-section,
+            .store-page #playeras,
+            section.playeras-section,
+            section#playeras {
+                padding: 20px 0 !important;
+                background: white !important;
+                background-color: #ffffff !important;
+                min-height: 100vh !important;
+            }
+            
+            .section-header {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin-bottom: 10px !important;
+                margin-top: 20px !important;
+                position: relative !important;
+                width: 100% !important;
+                transform: translateY(20px) !important;
+            }
+            
+            .back-arrow {
+                position: absolute !important;
+                left: 0 !important;
+                top: -40% !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+                color: #999 !important;
+                font-size: 14px !important;
+                cursor: pointer !important;
+                transform: translateY(-40%) !important;
+            }
+            
+            .store-page .playeras-section .section-header h2,
+            .store-page #playeras .section-header h2,
+            section.playeras-section .section-header h2,
+            section#playeras .section-header h2 {
+                font-size: 18px !important;
+                font-weight: normal !important;
+                margin: 0 !important;
+                color: #000 !important;
+                text-align: center !important;
+                padding-bottom: 5px !important;
+            }
+            
+            .products-count {
+                color: #999;
+                font-size: 14px;
+                margin-bottom: 30px;
+            }
+            
+            .playeras-grid {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            .playera-card {
+                background: white;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                cursor: pointer;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+            
+            .playera-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            }
+            
+            .playera-image {
+                position: relative;
+                aspect-ratio: 1.4;
+                background: #2a2a2a;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .playera-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+            
+            .star-badge {
+                position: absolute;
+                top: 10px;
+                left: 10px;
+                background: #ff6b00;
+                color: white;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                z-index: 2;
+            }
+            
+            .cart-icon-btn {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: #000;
+                color: white;
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                cursor: pointer;
+                transition: background 0.3s ease;
+                z-index: 2;
+            }
+            
+            .cart-icon-btn:hover {
+                background: #333;
+            }
+            
+            /* Eliminar selección y efectos de toque */
+            .playera-card,
+            .cart-icon-btn,
+            .star-badge,
+            .back-arrow {
+                -webkit-tap-highlight-color: transparent !important;
+                -webkit-touch-callout: none !important;
+                -webkit-user-select: none !important;
+                -moz-user-select: none !important;
+                -ms-user-select: none !important;
+                user-select: none !important;
+                outline: none !important;
+                border: none !important;
+            }
+            
+            .playera-card:focus,
+            .cart-icon-btn:focus,
+            .star-badge:focus,
+            .back-arrow:focus {
+                outline: none !important;
+                box-shadow: none !important;
+                border: none !important;
+            }
+            
+            .playera-info {
+                padding: 15px;
+                text-align: left;
+            }
+            
+            .playera-info h4 {
+                font-size: 12px;
+                font-weight: bold;
+                margin: 0 0 8px 0;
+                color: #333;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            
+            .playera-price {
+                font-size: 14px;
+                font-weight: bold;
+                color: #000;
+            }
+            
+            @media (max-width: 768px) {
+                .store-page .playeras-section,
+                .store-page #playeras,
+                section.playeras-section,
+                section#playeras {
+                    background: white !important;
+                    background-color: #ffffff !important;
+                    padding: 15px 0 !important;
+                }
+                
+                .store-page .playeras-section .section-header h2,
+                .store-page #playeras .section-header h2,
+                section.playeras-section .section-header h2,
+                section#playeras .section-header h2 {
+                    color: #000 !important;
+                }
+                
+                .playeras-grid {
+                    max-width: 100%;
+                    margin: 0;
+                    gap: 15px;
+                }
+                
+                .playera-card {
+                    border-radius: 12px;
+                }
+                
+                .playera-info {
+                    padding: 12px;
+                }
+                
+                .playera-info h4 {
+                    font-size: 11px;
+                }
+            }
+        </style>
     </section>
 
-    <!-- Footer -->
-    <footer class="main-footer">
-    </footer>
+
+
 
     <!-- Bottom Navigation (solo en móvil) -->
     <nav class="bottom-nav mobile-only">
-        <div class="nav-item" onclick="window.location.href='store2.html'">
+        <div class="nav-item active" onclick="window.location.href='store2.html'">
             <i class="fas fa-th-large"></i>
             <span>Todos</span>
         </div>
-        <div class="nav-item" onclick="document.getElementById('playeras') && document.getElementById('playeras').scrollIntoView({behavior: 'smooth'})">
+        <div class="nav-item" onclick="window.location.href='store.html#playeras'">
             <i class="fas fa-tshirt"></i>
             <span>Playeras</span>
         </div>
-        <div class="nav-item" onclick="document.getElementById('oversize') && document.getElementById('oversize').scrollIntoView({behavior: 'smooth'})">
+        <div class="nav-item" onclick="window.location.href='store.html#oversize'">
             <i class="fas fa-user-tie"></i>
             <span>Oversize</span>
         </div>
-        <div class="nav-item" onclick="document.getElementById('boxfit') && document.getElementById('boxfit').scrollIntoView({behavior: 'smooth'})">
+        <div class="nav-item" onclick="window.location.href='store.html#boxfit'">
             <i class="fas fa-box"></i>
             <span>Boxfit</span>
         </div>
