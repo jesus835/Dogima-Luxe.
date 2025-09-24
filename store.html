@@ -49,6 +49,7 @@
                 <ul>
                     <li><a href="index.html">Inicio</a></li>
                     <li><a href="store.html" class="active">Tienda</a></li>
+                    <li><a href="store2.html">Todos</a></li>
                     <li><a href="#playeras">Playeras Lisas</a></li>
                     <li><a href="#oversize">T-shirt Oversize</a></li>
                     <li><a href="#boxfit">T-shirt Boxfit</a></li>
@@ -56,7 +57,7 @@
                 </ul>
             </nav>
             <div class="header-actions">
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user" onclick="openCoupons()"></i>
                 <i class="fas fa-search desktop-only"></i>
                 <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
                     <i class="fas fa-bars"></i>
@@ -608,8 +609,15 @@
         <div class="modal-content image-zoom-modal">
             <span class="close" onclick="closeImageZoomModal()">&times;</span>
             <div class="zoom-image-container">
-                <div class="zoom-carousel-container" id="zoomCarouselContainer">
-                    <img id="zoomImage" src="" alt="Imagen del producto">
+                <div class="zoom-carousel-container" id="zoomCarouselContainer" style="overflow: hidden; position: relative;">
+                    <img id="zoomImage" src="" alt="Imagen del producto" 
+                         onwheel="handleImageZoom(event)" 
+                         onmousedown="startImageDrag(event)"
+                         onmousemove="dragImage(event)"
+                         onmouseup="endImageDrag()"
+                         onmouseleave="endImageDrag()"
+                         ondragstart="return false"
+                         style="cursor: grab; transform-origin: center; transition: transform 0.1s;">
                 </div>
                 <div class="carousel-dots" id="zoomCarouselDots" style="display: none;"></div>
             </div>
@@ -958,6 +966,129 @@
         // También ejecutar cuando la página esté completamente cargada
         window.addEventListener('load', function() {
             showProductCards();
+        });
+    </script>
+    
+    <script>
+        // Variables para el zoom y arrastre de imagen
+        let currentScale = 1;
+        let isDragging = false;
+        let startX = 0;
+        let startY = 0;
+        let translateX = 0;
+        let translateY = 0;
+        
+        // Función para manejar el zoom con la rueda del mouse
+        function handleImageZoom(event) {
+            event.preventDefault();
+            const img = document.getElementById('zoomImage');
+            const delta = event.deltaY * -0.01;
+            
+            // Límites de zoom
+            const minScale = 1.0;
+            const maxScale = 5;
+            
+            currentScale += delta;
+            currentScale = Math.min(Math.max(minScale, currentScale), maxScale);
+            
+            // Si regresamos al tamaño original, centrar la imagen
+            if (currentScale === 1) {
+                translateX = 0;
+                translateY = 0;
+            }
+            
+            updateImageTransform(img);
+        }
+        
+        // Función para iniciar el arrastre
+        function startImageDrag(event) {
+            if (currentScale > 1) {
+                isDragging = true;
+                startX = event.clientX - translateX;
+                startY = event.clientY - translateY;
+                
+                const img = document.getElementById('zoomImage');
+                img.style.cursor = 'grabbing';
+                img.style.transition = 'none';
+            }
+        }
+        
+        // Función para arrastrar la imagen
+        function dragImage(event) {
+            if (isDragging && currentScale > 1) {
+                const newTranslateX = event.clientX - startX;
+                const newTranslateY = event.clientY - startY;
+                
+                const img = document.getElementById('zoomImage');
+                const container = img.parentElement;
+                
+                // Calcular límites basados en el tamaño de la imagen y el contenedor
+                const imgRect = img.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                
+                const scaledWidth = imgRect.width;
+                const scaledHeight = imgRect.height;
+                const containerWidth = containerRect.width;
+                const containerHeight = containerRect.height;
+                
+                // Calcular límites máximos de movimiento
+                const maxTranslateX = Math.max(0, (scaledWidth - containerWidth) / 2 / currentScale);
+                const maxTranslateY = Math.max(0, (scaledHeight - containerHeight) / 2 / currentScale);
+                
+                // Aplicar límites
+                translateX = Math.max(-maxTranslateX, Math.min(maxTranslateX, newTranslateX));
+                translateY = Math.max(-maxTranslateY, Math.min(maxTranslateY, newTranslateY));
+                
+                updateImageTransform(img);
+            }
+        }
+        
+        // Función para terminar el arrastre
+        function endImageDrag() {
+            if (isDragging) {
+                isDragging = false;
+                const img = document.getElementById('zoomImage');
+                img.style.cursor = currentScale > 1 ? 'grab' : 'default';
+                img.style.transition = 'transform 0.1s';
+            }
+        }
+        
+        // Función para actualizar la transformación de la imagen
+        function updateImageTransform(img) {
+            img.style.transform = `scale(${currentScale}) translate(${translateX/currentScale}px, ${translateY/currentScale}px)`;
+        }
+        
+        // Resetear zoom cuando se abre una nueva imagen
+        function resetImageZoom() {
+            currentScale = 1;
+            translateX = 0;
+            translateY = 0;
+            isDragging = false;
+            
+            const img = document.getElementById('zoomImage');
+            if (img) {
+                img.style.transform = 'scale(1) translate(0px, 0px)';
+                img.style.cursor = 'default';
+            }
+        }
+        
+        // Sobrescribir la función original de apertura del modal para resetear el zoom
+        const originalOpenProductImageModal = window.openProductImageModal;
+        if (originalOpenProductImageModal) {
+            window.openProductImageModal = function(...args) {
+                originalOpenProductImageModal.apply(this, args);
+                setTimeout(resetImageZoom, 100);
+            };
+        }
+        
+        // Agregar doble clic para resetear zoom cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', function() {
+            const zoomImg = document.getElementById('zoomImage');
+            if (zoomImg) {
+                zoomImg.addEventListener('dblclick', function() {
+                    resetImageZoom();
+                });
+            }
         });
     </script>
 </body>

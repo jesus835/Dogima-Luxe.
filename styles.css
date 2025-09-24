@@ -663,10 +663,27 @@ body {
     opacity: 0.9;
 }
 
-/* Featured Products */
+/* Featured Products - Oculta en desktop solo en index.html */
+@media (min-width: 769px) {
+    body:not(.store-page) .featured-products {
+        display: none !important;
+    }
+}
+
 .featured-products {
     padding: 80px 0;
     background: white;
+}
+
+/* Secciones específicas más altas para navegación directa */
+#oversize {
+    padding: 120px 0 !important;
+    min-height: 100vh !important;
+}
+
+#boxfit {
+    padding: 120px 0 !important;
+    min-height: 100vh !important;
 }
 
 .featured-products h2 {
