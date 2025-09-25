@@ -1686,6 +1686,9 @@
         let overlayLastTouchDistance = 0;
         let overlayLastTouchTime = 0;
         let overlayTouchCount = 0;
+        let overlaySwipeStartX = 0;
+        let overlaySwipeStartY = 0;
+        let overlaySwipeThreshold = 50;
         
         // Función para obtener precio unitario (copiada del script.js)
         function getOverlayUnitPriceFor(quantity, productName) {
@@ -2155,6 +2158,10 @@
                     overlayStartX = overlayTouches[0].clientX - overlayTranslateX;
                     overlayStartY = overlayTouches[0].clientY - overlayTranslateY;
                 }
+                
+                // Guardar posición inicial para detectar swipe
+                overlaySwipeStartX = overlayTouches[0].clientX;
+                overlaySwipeStartY = overlayTouches[0].clientY;
             } else if (overlayTouches.length === 2) {
                 // Dos dedos - preparar para zoom
                 overlayIsZooming = true;
@@ -2223,12 +2230,25 @@
             overlayTouches = Array.from(event.touches);
             
             if (overlayTouches.length === 0) {
-                // No hay más toques - verificar si fue un toque simple
+                // No hay más toques - verificar si fue un toque simple o swipe
                 const touchEndTime = Date.now();
                 const timeDiff = touchEndTime - overlayLastTouchTime;
                 
-                // Si fue un toque simple (no zoom, no drag), abrir modal
-                if (timeDiff < 300 && !overlayIsZooming && !overlayIsDragging) {
+                // Detectar swipe horizontal para cambiar imagen
+                const deltaX = event.changedTouches[0].clientX - overlaySwipeStartX;
+                const deltaY = event.changedTouches[0].clientY - overlaySwipeStartY;
+                
+                // Si el movimiento horizontal es mayor que el vertical y supera el umbral
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > overlaySwipeThreshold) {
+                    if (deltaX > 0) {
+                        // Swipe hacia la derecha - imagen anterior
+                        prevOverlayImage();
+                    } else {
+                        // Swipe hacia la izquierda - imagen siguiente
+                        nextOverlayImage();
+                    }
+                } else if (timeDiff < 300 && !overlayIsZooming && !overlayIsDragging) {
+                    // Si fue un toque simple (no zoom, no drag), abrir modal
                     openImageZoomModalFromOverlay();
                 }
                 

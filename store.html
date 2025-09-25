@@ -1527,6 +1527,9 @@
         let overlayLastTouchDistance = 0;
         let overlayLastTouchTime = 0;
         let overlayTouchCount = 0;
+        let overlaySwipeStartX = 0;
+        let overlaySwipeStartY = 0;
+        let overlaySwipeThreshold = 50;
         
         // Función para obtener precio unitario (copiada del script.js)
         function getOverlayUnitPriceFor(quantity, productName) {
@@ -1923,49 +1926,135 @@
             updateOverlayImageTransform();
         }
         
-        // Funciones de gestos táctiles para overlay (simplificadas)
+        // Funciones de gestos táctiles para overlay (igual que store2.html)
         function handleOverlayTouchStart(event) {
-            if (event.touches.length === 2) {
+            event.preventDefault();
+            overlayTouches = Array.from(event.touches);
+            
+            if (overlayTouches.length === 1) {
+                // Detectar doble toque para resetear zoom
+                const currentTime = new Date().getTime();
+                const timeDiff = currentTime - overlayLastTouchTime;
+                
+                if (timeDiff < 300 && timeDiff > 0) {
+                    // Doble toque detectado - resetear zoom
+                    resetOverlayImageZoom();
+                    return;
+                }
+                
+                overlayLastTouchTime = currentTime;
+                
+                // Un dedo - preparar para arrastre
+                if (overlayCurrentScale > 1) {
+                    overlayIsDragging = true;
+                    overlayStartX = overlayTouches[0].clientX - overlayTranslateX;
+                    overlayStartY = overlayTouches[0].clientY - overlayTranslateY;
+                }
+                
+                // Guardar posición inicial para detectar swipe
+                overlaySwipeStartX = overlayTouches[0].clientX;
+                overlaySwipeStartY = overlayTouches[0].clientY;
+            } else if (overlayTouches.length === 2) {
+                // Dos dedos - preparar para zoom
                 overlayIsZooming = true;
-                overlayInitialDistance = getOverlayDistance(event.touches[0], event.touches[1]);
+                overlayIsDragging = false;
+                overlayInitialDistance = getOverlayDistance(overlayTouches[0], overlayTouches[1]);
                 overlayInitialScale = overlayCurrentScale;
-            } else {
-                overlayIsDragging = true;
-                overlayStartX = event.touches[0].clientX - overlayTranslateX;
-                overlayStartY = event.touches[0].clientY - overlayTranslateY;
-                overlayLastTouchTime = Date.now();
-                overlayTouchCount = 1;
+                overlayLastTouchDistance = overlayInitialDistance;
             }
         }
         
+        // Función para manejar el movimiento del toque en overlay
         function handleOverlayTouchMove(event) {
             event.preventDefault();
+            overlayTouches = Array.from(event.touches);
+            const img = document.getElementById('overlayProductImage');
             
-            if (overlayIsZooming && event.touches.length === 2) {
-                const currentDistance = getOverlayDistance(event.touches[0], event.touches[1]);
-                const scale = overlayInitialScale * (currentDistance / overlayInitialDistance);
-                overlayCurrentScale = Math.max(0.5, Math.min(3, scale));
-                updateOverlayImageTransform();
-            } else if (overlayIsDragging && event.touches.length === 1) {
-                overlayTranslateX = event.touches[0].clientX - overlayStartX;
-                overlayTranslateY = event.touches[0].clientY - overlayStartY;
-                updateOverlayImageTransform();
+            if (overlayTouches.length === 1 && overlayIsDragging && overlayCurrentScale > 1) {
+                // Un dedo - arrastrar
+                const newTranslateX = overlayTouches[0].clientX - overlayStartX;
+                const newTranslateY = overlayTouches[0].clientY - overlayStartY;
+                
+                const container = img.parentElement;
+                const imgRect = img.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                
+                const scaledWidth = imgRect.width;
+                const scaledHeight = imgRect.height;
+                const containerWidth = containerRect.width;
+                const containerHeight = containerRect.height;
+                
+                // Calcular límites máximos de movimiento
+                const maxTranslateX = Math.max(0, (scaledWidth - containerWidth) / 2 / overlayCurrentScale);
+                const maxTranslateY = Math.max(0, (scaledHeight - containerHeight) / 2 / overlayCurrentScale);
+                
+                // Aplicar límites
+                overlayTranslateX = Math.max(-maxTranslateX, Math.min(maxTranslateX, newTranslateX));
+                overlayTranslateY = Math.max(-maxTranslateY, Math.min(maxTranslateY, newTranslateY));
+                
+                updateOverlayImageTransform(img);
+            } else if (overlayTouches.length === 2 && overlayIsZooming) {
+                // Dos dedos - zoom
+                const currentDistance = getOverlayDistance(overlayTouches[0], overlayTouches[1]);
+                const scaleChange = currentDistance / overlayInitialDistance;
+                
+                // Límites de zoom
+                const minScale = 1.0;
+                const maxScale = 5;
+                
+                let newScale = overlayInitialScale * scaleChange;
+                newScale = Math.min(Math.max(minScale, newScale), maxScale);
+                
+                // Si regresamos al tamaño original, centrar la imagen
+                if (newScale === 1) {
+                    overlayTranslateX = 0;
+                    overlayTranslateY = 0;
+                }
+                
+                overlayCurrentScale = newScale;
+                updateOverlayImageTransform(img);
             }
         }
         
+        // Función para manejar el fin del toque en overlay
         function handleOverlayTouchEnd(event) {
-            if (overlayIsZooming) {
-                overlayIsZooming = false;
-            }
+            event.preventDefault();
+            overlayTouches = Array.from(event.touches);
             
-            if (overlayIsDragging) {
-                overlayIsDragging = false;
+            if (overlayTouches.length === 0) {
+                // No hay más toques - verificar si fue un toque simple o swipe
+                const touchEndTime = Date.now();
+                const timeDiff = touchEndTime - overlayLastTouchTime;
                 
-                const timeDiff = Date.now() - overlayLastTouchTime;
+                // Detectar swipe horizontal para cambiar imagen
+                const deltaX = event.changedTouches[0].clientX - overlaySwipeStartX;
+                const deltaY = event.changedTouches[0].clientY - overlaySwipeStartY;
                 
-                // Si fue un toque simple, abrir modal de zoom
-                if (timeDiff < 300 && overlayTouchCount === 1 && !overlayIsZooming) {
+                // Si el movimiento horizontal es mayor que el vertical y supera el umbral
+                if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > overlaySwipeThreshold) {
+                    if (deltaX > 0) {
+                        // Swipe hacia la derecha - imagen anterior
+                        prevOverlayImage();
+                    } else {
+                        // Swipe hacia la izquierda - imagen siguiente
+                        nextOverlayImage();
+                    }
+                } else if (timeDiff < 300 && !overlayIsZooming && !overlayIsDragging) {
+                    // Si fue un toque simple (no zoom, no drag), abrir modal
                     openImageZoomModalFromOverlay();
+                }
+                
+                overlayIsDragging = false;
+                overlayIsZooming = false;
+                overlayInitialDistance = 0;
+                overlayInitialScale = 1;
+            } else if (overlayTouches.length === 1) {
+                // Queda un dedo - cambiar de zoom a arrastre si está ampliado
+                overlayIsZooming = false;
+                if (overlayCurrentScale > 1) {
+                    overlayIsDragging = true;
+                    overlayStartX = overlayTouches[0].clientX - overlayTranslateX;
+                    overlayStartY = overlayTouches[0].clientY - overlayTranslateY;
                 }
             }
         }
