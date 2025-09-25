@@ -884,9 +884,9 @@ function openProductImageModal(colorName, imageId) {
     document.getElementById('zoomProductName').textContent = colorName;
     
     // Configurar información del producto según el tipo
-    let productInfo = 'Algodón en hilo 22 - Tallas Disponibles: S, M, L y XL';
+    let productInfo = 'Algodón en hilo 20 - Tallas Disponibles: S, M, L y XL';
     if (currentProductType === 'oversize' || currentProductType === 'boxfit') {
-        productInfo = 'Algodón en hilo 20 - Tallas Disponibles: S, M, L y XL';
+        productInfo = 'Algodón en hilo 22 - Tallas Disponibles: S, M, L y XL';
     }
     document.getElementById('zoomProductDetails').textContent = productInfo;
     
