@@ -1915,6 +1915,12 @@
                 currentProductColor = overlayCurrentProductColor;
                 currentProductType = overlayCurrentProductType;
                 
+                // Limpiar información anterior del modal
+                const productNameEl = document.getElementById('zoomProductName');
+                const productDetailsEl = document.getElementById('zoomProductDetails');
+                if (productNameEl) productNameEl.textContent = '';
+                if (productDetailsEl) productDetailsEl.textContent = '';
+                
                 // Abrir el modal de zoom
                 if (typeof openImageZoomModal === 'function') {
                     openImageZoomModal(overlayCurrentProductColor, overlayProductImages[overlayCurrentImageIndex]);

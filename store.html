@@ -1476,7 +1476,7 @@
             shuffled.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'popular-card';
-                card.onclick = () => openCartModal(item.productName, item.imageId);
+                card.onclick = () => openProductOverlay(item.productName, item.imageId, item.price);
                 card.innerHTML = `
                     <img src="./images/camisas lisas/${item.imageId}.png" alt="${item.display}">
                     <div class="popular-info">
@@ -2220,6 +2220,12 @@
                 currentImageIndex = overlayCurrentImageIndex;
                 currentProductColor = overlayCurrentProductColor;
                 currentProductType = overlayCurrentProductType;
+                
+                // Limpiar información anterior del modal
+                const productNameEl = document.getElementById('zoomProductName');
+                const productDetailsEl = document.getElementById('zoomProductDetails');
+                if (productNameEl) productNameEl.textContent = '';
+                if (productDetailsEl) productDetailsEl.textContent = '';
                 
                 // Abrir el modal de zoom
                 if (typeof openImageZoomModal === 'function') {
