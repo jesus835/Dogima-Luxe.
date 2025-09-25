@@ -535,7 +535,9 @@ function updateCartDisplay() {
 // Actualizar resumen del carrito
 function updateCartSummary() {
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    let totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
+    let subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+    const shipping = 30; // Envío fijo de Q30
+    let totalPrice = subtotal;
     
     // Contar playeras lisas, oversize y boxfit por separado
     // Solo contar productos que NO tengan descuento individual ya aplicado
@@ -600,7 +602,7 @@ function updateCartSummary() {
         descuentoTextos.push(`Oversize/Boxfit ${precioFinal}: -Q${descuentoAdicional}`);
     }
     
-    // Aplicar descuentos al total
+    // Aplicar descuentos al subtotal
     if (descuentoTotal > 0) {
         totalPrice = totalPrice - descuentoTotal;
         
@@ -612,14 +614,16 @@ function updateCartSummary() {
             const precioOriginal = cartItems.reduce((sum, item) => sum + item.total, 0);
             const descuentoTexto = descuentoTextos.join(', ');
             cartSubtotalEl.innerHTML = `Q${precioOriginal} <span style="color: #4caf50; font-size: 12px;">(-Q${descuentoTotal} bulk: ${descuentoTexto})</span>`;
-            cartTotalEl.textContent = `Q${totalPrice}`;
+            cartTotalEl.textContent = `Q${totalPrice + shipping}`;
         }
     } else {
         // Mostrar precios normales
         document.getElementById('cartSubtotal').textContent = `Q${totalPrice}`;
-        document.getElementById('cartTotal').textContent = `Q${totalPrice}`;
+        document.getElementById('cartTotal').textContent = `Q${totalPrice + shipping}`;
     }
     
+    // Actualizar envío y total de productos
+    document.getElementById('cartShipping').textContent = `Q${shipping}`;
     document.getElementById('cartTotalItems').textContent = totalItems;
 }
 
@@ -1202,7 +1206,9 @@ function processOrderWithCustomerData() {
 function completeCheckout(customerName, customerPhone, customerAddress, customerDepartment) {
     // Crear mensaje para WhatsApp
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    let totalPrice = cartItems.reduce((sum, item) => sum + item.total, 0);
+    let subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+    const shipping = 30; // Envío fijo de Q30
+    let totalPrice = subtotal;
     
     // Contar playeras lisas, oversize y boxfit por separado
     // Solo contar productos que NO tengan descuento individual ya aplicado
@@ -1296,13 +1302,15 @@ function completeCheckout(customerName, customerPhone, customerAddress, customer
     });
     
     message += `\n*RESUMEN:*\n`;
+    message += `- Subtotal: Q${totalPrice}\n`;
+    message += `- Envío: Q${shipping}\n`;
     message += `- Total de productos: ${totalItems}\n`;
     if (descuentoTotal > 0) {
         descuentoMensajes.forEach(descuento => {
             message += `- Descuento bulk: ${descuento}\n`;
         });
     }
-    message += `- *TOTAL A PAGAR: Q${totalPrice}*\n\n`;
+    message += `- *TOTAL A PAGAR: Q${totalPrice + shipping}*\n\n`;
     message += `Gracias por tu pedido! Te contactaremos pronto para coordinar la entrega.`;
     
     // Codificar el mensaje para URL
@@ -1324,7 +1332,9 @@ function completeCheckout(customerName, customerPhone, customerAddress, customer
             department: customerDepartment
         },
         items: cartItems.map(item => ({...item})),
-        total: totalPrice,
+        subtotal: totalPrice,
+        shipping: shipping,
+        total: totalPrice + shipping,
         totalItems: totalItems
     };
     
