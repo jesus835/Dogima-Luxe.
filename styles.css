@@ -1296,11 +1296,11 @@ body {
     }
     
     .store-page .mobile-menu-toggle i {
-        color: #fff !important;
+        color: #333 !important;
     }
     
     .store-page .header-actions i {
-        color: #fff !important;
+        color: #333 !important;
     }
     
     .store-page .mobile-menu {
@@ -1313,6 +1313,15 @@ body {
     
     .store-page .category-title {
         color: #333 !important;
+    }
+
+    /* Iconos blancos solo para store.html */
+    body.store-page:not(.store2-page):not(.store3-page) .header-actions i {
+        color: #fff !important;
+    }
+    
+    body.store-page:not(.store2-page):not(.store3-page) .mobile-menu-toggle i {
+        color: #fff !important;
     }
     
     .store-page .category-submenu a {
