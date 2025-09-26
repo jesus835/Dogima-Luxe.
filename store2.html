@@ -79,6 +79,19 @@
                 <ul>
                     <li><a href="index.html" onclick="closeMobileMenu()">Inicio</a></li>
                     <li><a href="store.html" onclick="closeMobileMenu()">Tienda</a></li>
+                    <li class="menu-category">
+                        <span class="category-title" onclick="togglePersonalizeCategory()">
+                            Personaliza Tu Prenda
+                            <i class="fas fa-chevron-down category-arrow"></i>
+                        </span>
+                        <ul class="category-submenu" id="personalizeSubmenu">
+                            <li><a href="store3.html" onclick="closeMobileMenu()">Personalizar</a></li>
+                            <li><a href="store3.html#futbol" onclick="closeMobileMenu()">Fútbol</a></li>
+                            <li><a href="store3.html#basquetbol" onclick="closeMobileMenu()">Básquetbol</a></li>
+                            <li><a href="store3.html#anime" onclick="closeMobileMenu()">Anime</a></li>
+                            <li><a href="store3.html#artistas" onclick="closeMobileMenu()">Artistas</a></li>
+                        </ul>
+                    </li>
                     <li><a href="store2.html" onclick="closeMobileMenu()">Todos los artículos</a></li>
                     <li class="menu-category">
                         <span class="category-title" onclick="toggleCategory()">
@@ -1218,32 +1231,10 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="customerDepartment">Departamento *</label>
-                    <select id="customerDepartment" name="customerDepartment" required>
-                        <option value="">Selecciona un departamento</option>
-                        <option value="Guatemala">Guatemala</option>
-                        <option value="Alta Verapaz">Alta Verapaz</option>
-                        <option value="Baja Verapaz">Baja Verapaz</option>
-                        <option value="Chimaltenango">Chimaltenango</option>
-                        <option value="Chiquimula">Chiquimula</option>
-                        <option value="El Progreso">El Progreso</option>
-                        <option value="Escuintla">Escuintla</option>
-                        <option value="Huehuetenango">Huehuetenango</option>
-                        <option value="Izabal">Izabal</option>
-                        <option value="Jalapa">Jalapa</option>
-                        <option value="Jutiapa">Jutiapa</option>
-                        <option value="Petén">Petén</option>
-                        <option value="Quetzaltenango">Quetzaltenango</option>
-                        <option value="Quiché">Quiché</option>
-                        <option value="Retalhuleu">Retalhuleu</option>
-                        <option value="Sacatepéquez">Sacatepéquez</option>
-                        <option value="San Marcos">San Marcos</option>
-                        <option value="Santa Rosa">Santa Rosa</option>
-                        <option value="Sololá">Sololá</option>
-                        <option value="Suchitepéquez">Suchitepéquez</option>
-                        <option value="Totonicapán">Totonicapán</option>
-                        <option value="Zacapa">Zacapa</option>
-                    </select>
+                    <div class="personalized-notice">
+                        <i class="fas fa-info-circle"></i>
+                        <p><strong>Nota importante:</strong> Si tu pedido incluye productos personalizados, por favor envía tu diseño al finalizar el proceso de compra.</p>
+                    </div>
                 </div>
                 
                 <div class="form-actions">
@@ -1260,6 +1251,17 @@
         function toggleCategory() {
             const submenu = document.getElementById('categorySubmenu');
             const arrow = document.querySelector('.category-arrow');
+            
+            if (submenu && arrow) {
+                submenu.classList.toggle('expanded');
+                arrow.classList.toggle('rotated');
+            }
+        }
+
+        // Función para toggle de personalizar en menú móvil
+        function togglePersonalizeCategory() {
+            const submenu = document.getElementById('personalizeSubmenu');
+            const arrow = document.querySelector('#personalizeSubmenu').parentElement.querySelector('.category-arrow');
             
             if (submenu && arrow) {
                 submenu.classList.toggle('expanded');

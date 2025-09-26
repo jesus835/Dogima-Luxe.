@@ -1,0 +1,31 @@
+{
+  "app": {
+    "name": "Dogima Luxe",
+    "version": "1.0.0",
+    "currency": "Q",
+    "shipping": 30,
+    "maxQuantity": 50,
+    "minQuantity": 1
+  },
+  "pricing": {
+    "bulkDiscounts": {
+      "lisa": {
+        "12": 18
+      },
+      "oversize": {
+        "6": 38,
+        "12": 35
+      },
+      "boxfit": {
+        "6": 38,
+        "12": 35
+      }
+    }
+  },
+  "ui": {
+    "defaultLanguage": "es",
+    "showDiscounts": true,
+    "enableBulkPricing": true
+  }
+}
+

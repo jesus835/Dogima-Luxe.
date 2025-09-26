@@ -1,0 +1,58 @@
+{
+  "products": {
+    "lisa": {
+      "name": "Playera Lisa",
+      "basePrice": 25,
+      "bulkDiscounts": {
+        "12": 18
+      },
+      "defaultThread": "hilo22",
+      "description": "Playera de alta calidad, 100% algodón, perfecta para cualquier ocasión. Diseño moderno y cómodo.",
+      "material": "Algodón en hilo 20",
+      "sizes": ["S", "M", "L", "XL"]
+    },
+    "oversize": {
+      "name": "T-shirt Oversize",
+      "basePrice": 45,
+      "bulkDiscounts": {
+        "6": 38,
+        "12": 35
+      },
+      "defaultThread": "hilo20",
+      "description": "T-shirt oversize de alta calidad, 100% algodón, perfecta para un look relajado y moderno.",
+      "material": "Algodón en hilo 22",
+      "sizes": ["S", "M", "L", "XL"]
+    },
+    "boxfit": {
+      "name": "T-shirt Boxfit",
+      "basePrice": 45,
+      "bulkDiscounts": {
+        "6": 38,
+        "12": 35
+      },
+      "defaultThread": "hilo20",
+      "description": "T-shirt boxfit de alta calidad, 100% algodón, con un corte más amplio y cómodo.",
+      "material": "Algodón en hilo 22",
+      "sizes": ["S", "M", "L", "XL"]
+    },
+    "hoodie_con_capucha": {
+      "name": "Hoodie con Capucha",
+      "basePrice": 0,
+      "bulkDiscounts": {},
+      "defaultThread": "hilo20",
+      "description": "Hoodie con capucha de alta calidad, 100% algodón, perfecto para días frescos y un look casual.",
+      "material": "Algodón en hilo 22",
+      "sizes": ["S", "M", "L", "XL"]
+    },
+    "hoodie_sin_capucha": {
+      "name": "Hoodie sin Capucha",
+      "basePrice": 0,
+      "bulkDiscounts": {},
+      "defaultThread": "hilo20",
+      "description": "Hoodie sin capucha de alta calidad, 100% algodón, ideal para un look casual y cómodo.",
+      "material": "Algodón en hilo 22",
+      "sizes": ["S", "M", "L", "XL"]
+    }
+  }
+}
+

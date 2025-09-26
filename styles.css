@@ -1296,11 +1296,11 @@ body {
     }
     
     .store-page .mobile-menu-toggle i {
-        color: #333 !important;
+        color: #fff !important;
     }
     
     .store-page .header-actions i {
-        color: #333 !important;
+        color: #fff !important;
     }
     
     .store-page .mobile-menu {
@@ -2673,7 +2673,7 @@ body {
 }
 
 .category-submenu.expanded {
-    max-height: 200px;
+    max-height: 300px;
 }
 
 .category-submenu li {

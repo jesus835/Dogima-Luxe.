@@ -504,9 +504,16 @@ function updateCartDisplay() {
     cartSummary.style.display = 'block';
     
     // Generar HTML de los items
-    cartItemsContainer.innerHTML = cartItems.map((item, index) => `
+    cartItemsContainer.innerHTML = cartItems.map((item, index) => {
+        // Determinar si es un producto personalizado
+        const isPersonalized = item.name && item.name.includes('Personalizada');
+        
+        // Usar imagen general para productos personalizados, o la imagen específica para productos normales
+        const imageSrc = isPersonalized ? './images/personalizadas/general.jpg' : item.image;
+        
+        return `
         <div class="cart-item">
-            <img src="${item.image}" alt="${item.name}">
+            <img src="${imageSrc}" alt="${item.name}">
             <div class="cart-item-details">
                 <div class="cart-item-title">${item.name}</div>
                 <div class="cart-item-info">Talla: ${item.size}</div>
@@ -526,7 +533,8 @@ function updateCartDisplay() {
                 <div class="final-price">Q${item.total}</div>
             </div>
         </div>
-    `).join('');
+        `;
+    }).join('');
     
     // Actualizar resumen
     updateCartSummary();
@@ -760,7 +768,7 @@ function checkout() {
     }
     
     // Generar ID de pedido
-    const orderId = 'PED-' + Date.now();
+    const orderId = 'DOG' + Date.now().toString().slice(-6);
     
     let message = '*PEDIDO - DOGIMA LUXE*\n\n';
     message += `*ID PEDIDO: ${orderId}*\n\n`;
@@ -1279,39 +1287,40 @@ function completeCheckout(customerName, customerPhone, customerAddress, customer
     }
     
     // Generar ID de pedido
-    const orderId = 'PED-' + Date.now();
+    const orderId = 'DOG' + Date.now().toString().slice(-6);
     
-    let message = '*PEDIDO - DOGIMA LUXE*\n\n';
-    message += `*ID PEDIDO: ${orderId}*\n\n`;
+    let message = `Hola! Nuevo pedido de DOGIMA Luxe\n\n`;
+    message += `Pedido ID: ${orderId}\n`;
+    message += `Cliente: ${customerName}\n`;
+    message += `Dirección: ${customerAddress}\n`;
+    message += `Teléfono: ${customerPhone}\n\n`;
+    message += `Detalles del pedido:\n`;
     
-    // Datos del cliente
-    message += '*DATOS DEL CLIENTE:*\n';
-    message += `👤 Nombre: ${customerName}\n`;
-    message += `📱 Teléfono: ${customerPhone}\n`;
-    message += `📍 Dirección: ${customerAddress}\n`;
-    message += `🏢 Departamento: ${customerDepartment}\n\n`;
-    
-    message += '*DETALLE DEL PEDIDO:*\n';
-    
-    cartItems.forEach((item, index) => {
-        message += `\n${index + 1}. ${item.name}\n`;
-        message += `   - Talla: ${item.size}\n`;
-        message += `   - Cantidad: ${item.quantity}\n`;
-        message += `   - Precio unitario: Q${item.unitPrice}\n`;
-        message += `   - Subtotal: Q${item.total}\n`;
+    cartItems.forEach((item) => {
+        // Extraer el tipo de producto y color del nombre
+        let productType = item.name;
+        let color = item.color || 'N/A';
+        
+        // Formatear el nombre del producto para que se vea mejor
+        if (productType.includes('Playera Lisa')) {
+            productType = 'Playera Lisa';
+        } else if (productType.includes('T-shirt Oversize')) {
+            productType = 'T-shirt Oversize';
+        } else if (productType.includes('T-shirt Boxfit')) {
+            productType = 'T-shirt Boxfit';
+        } else if (productType.includes('Hoodie con Capucha')) {
+            productType = 'Hoodie con Capucha';
+        } else if (productType.includes('Hoodie sin Capucha')) {
+            productType = 'Hoodie sin Capucha';
+        }
+        
+        message += `- ${productType}, Color: ${color}, Talla: ${item.size}, Cantidad: ${item.quantity}, Precio: Q${item.total} c/u\n`;
     });
     
-    message += `\n*RESUMEN:*\n`;
-    message += `- Subtotal: Q${totalPrice}\n`;
-    message += `- Envío: Q${shipping}\n`;
-    message += `- Total de productos: ${totalItems}\n`;
-    if (descuentoTotal > 0) {
-        descuentoMensajes.forEach(descuento => {
-            message += `- Descuento bulk: ${descuento}\n`;
-        });
-    }
-    message += `- *TOTAL A PAGAR: Q${totalPrice + shipping}*\n\n`;
-    message += `Gracias por tu pedido! Te contactaremos pronto para coordinar la entrega.`;
+    message += `\nSubtotal: Q${totalPrice}\n`;
+    message += `Envío: Q${shipping}\n`;
+    message += `Total: Q${totalPrice + shipping}\n\n`;
+    message += `Gracias por tu pedido, te contactaremos pronto para coordinar la entrega.`;
     
     // Codificar el mensaje para URL
     const encodedMessage = encodeURIComponent(message);

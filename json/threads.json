@@ -1,0 +1,24 @@
+{
+  "threadTypes": {
+    "hilo22": {
+      "name": "Hilo 22",
+      "price": 75,
+      "description": "Hilo 22 - Ideal para playeras lisas",
+      "suitableFor": ["lisa"]
+    },
+    "hilo20": {
+      "name": "Hilo 20",
+      "price": 110,
+      "description": "Hilo 20 - Más resistente, ideal para oversize, boxfit y hoodies",
+      "suitableFor": ["oversize", "boxfit", "hoodie_con_capucha", "hoodie_sin_capucha"]
+    }
+  },
+  "defaultThreads": {
+    "lisa": "hilo22",
+    "oversize": "hilo20",
+    "boxfit": "hilo20",
+    "hoodie_con_capucha": "hilo20",
+    "hoodie_sin_capucha": "hilo20"
+  }
+}
+

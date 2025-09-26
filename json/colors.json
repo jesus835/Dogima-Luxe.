@@ -1,0 +1,54 @@
+{
+  "colorGroups": {
+    "lisa": {
+      "name": "Playeras Lisas",
+      "colors": [
+        { "value": "blanco", "text": "Blanco" },
+        { "value": "negro", "text": "Negro" },
+        { "value": "celeste", "text": "Celeste" },
+        { "value": "rojo", "text": "Rojo" },
+        { "value": "verde", "text": "Verde" },
+        { "value": "gris", "text": "Gris" },
+        { "value": "azul", "text": "Azul" },
+        { "value": "amarillo", "text": "Amarillo" },
+        { "value": "naranja", "text": "Naranja" },
+        { "value": "corinto", "text": "Corinto" },
+        { "value": "fucsia", "text": "Fucsia" },
+        { "value": "verdemilitar", "text": "Verde Militar" }
+      ]
+    },
+    "oversize": {
+      "name": "T-shirt Oversize",
+      "colors": [
+        { "value": "blanco", "text": "Blanco" },
+        { "value": "negro", "text": "Negro" },
+        { "value": "crema", "text": "Crema" },
+        { "value": "beige", "text": "Beige" }
+      ]
+    },
+    "boxfit": {
+      "name": "T-shirt Boxfit",
+      "colors": [
+        { "value": "blanco", "text": "Blanco" },
+        { "value": "negro", "text": "Negro" },
+        { "value": "crema", "text": "Crema" },
+        { "value": "beige", "text": "Beige" }
+      ]
+    },
+    "hoodie_con_capucha": {
+      "name": "Hoodie con Capucha",
+      "colors": [
+        { "value": "blanco", "text": "Blanco" },
+        { "value": "negro", "text": "Negro" }
+      ]
+    },
+    "hoodie_sin_capucha": {
+      "name": "Hoodie sin Capucha",
+      "colors": [
+        { "value": "blanco", "text": "Blanco" },
+        { "value": "negro", "text": "Negro" }
+      ]
+    }
+  }
+}
+
