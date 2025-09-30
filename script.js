@@ -1,5 +1,9 @@
 // Funcionalidad para los tabs de productos destacados
 document.addEventListener('DOMContentLoaded', function() {
+    // Registrar Service Worker para cachear imágenes (cache-first)
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(() => {});
+    }
     // Limpiar datos de prueba solo la primera vez
     if (!localStorage.getItem('dogimaInitialized')) {
         localStorage.removeItem('dogimaOrders');
