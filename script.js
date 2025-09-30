@@ -1191,10 +1191,9 @@ function processOrderWithCustomerData() {
     const customerName = document.getElementById('customerName').value.trim();
     const customerPhone = document.getElementById('customerPhone').value.trim();
     const customerAddress = document.getElementById('customerAddress').value.trim();
-    const customerDepartment = document.getElementById('customerDepartment').value;
     
     // Validar que todos los campos estén completos
-    if (!customerName || !customerPhone || !customerAddress || !customerDepartment) {
+    if (!customerName || !customerPhone || !customerAddress) {
         alert('Por favor completa todos los campos obligatorios.');
         return;
     }
@@ -1207,11 +1206,11 @@ function processOrderWithCustomerData() {
     }
     
     // Proceder con el pedido original
-    completeCheckout(customerName, customerPhone, customerAddress, customerDepartment);
+    completeCheckout(customerName, customerPhone, customerAddress);
 }
 
 // Función para completar el checkout con datos del cliente
-function completeCheckout(customerName, customerPhone, customerAddress, customerDepartment) {
+function completeCheckout(customerName, customerPhone, customerAddress) {
     // Crear mensaje para WhatsApp
     const totalItems = cartItems.reduce((sum, item) => sum + item.quantity, 0);
     let subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
@@ -1302,7 +1301,22 @@ function completeCheckout(customerName, customerPhone, customerAddress, customer
         let color = item.color || 'N/A';
         
         // Formatear el nombre del producto para que se vea mejor
-        if (productType.includes('Playera Lisa')) {
+        if (productType.includes('Personalizada')) {
+            // Para productos personalizados, usar el tipo del item
+            let personalizadaType = item.type;
+            // Convertir valores del select a nombres legibles
+            if (personalizadaType === 'lisa') {
+                productType = 'Personalizada - Playera Lisa';
+            } else if (personalizadaType === 'oversize') {
+                productType = 'Personalizada - T-shirt Oversize';
+            } else if (personalizadaType === 'boxfit') {
+                productType = 'Personalizada - T-shirt Boxfit';
+            } else if (personalizadaType === 'hoodie_con_capucha') {
+                productType = 'Personalizada - Hoodie con Capucha';
+            } else if (personalizadaType === 'hoodie_sin_capucha') {
+                productType = 'Personalizada - Hoodie sin Capucha';
+            }
+        } else if (productType.includes('Playera Lisa')) {
             productType = 'Playera Lisa';
         } else if (productType.includes('T-shirt Oversize')) {
             productType = 'T-shirt Oversize';

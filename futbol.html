@@ -2050,7 +2050,7 @@
             
             const cartItem = {
                 id: `anime_${Date.now()}`,
-                name: `Anime Personalizada - ${color}`,
+                name: `Personalizada - ${productType} ${color}`,
                 type: productType,
                 color: color,
                 size: size,
@@ -3056,6 +3056,119 @@
                     }
                 }
             });
+        });
+        // Funciones del modal de datos del cliente
+        window.closeCustomerDataModal = function() {
+            document.getElementById('customerDataModal').style.display = 'none';
+        };
+
+        window.processOrderWithCustomerData = function() {
+            // Obtener datos del formulario
+            const customerName = document.getElementById('customerName').value.trim();
+            const customerPhone = document.getElementById('customerPhone').value.trim();
+            const customerAddress = document.getElementById('customerAddress').value.trim();
+            
+            // Validar que todos los campos estén completos
+            if (!customerName || !customerPhone || !customerAddress) {
+                alert('Por favor completa todos los campos obligatorios.');
+                return;
+            }
+            
+            // Validar formato de teléfono
+            const phoneRegex = /^[0-9\s\-\+\(\)]{8,}$/;
+            if (!phoneRegex.test(customerPhone)) {
+                alert('Por favor ingresa un número de teléfono válido.');
+                return;
+            }
+            
+            // Proceder con el pedido
+            completeCheckout(customerName, customerPhone, customerAddress);
+        };
+
+        window.completeCheckout = function(customerName, customerPhone, customerAddress) {
+            // Generar ID del pedido
+            const orderId = 'DOG' + Date.now().toString().slice(-6);
+            
+            // Crear mensaje para WhatsApp con el formato específico
+            const subtotal = cartItems.reduce((sum, item) => sum + item.total, 0);
+            const shipping = 30;
+            const total = subtotal + shipping;
+            
+            let message = `Hola! Nuevo pedido de DOGIMA Luxe\n\n`;
+            message += `Pedido ID: ${orderId}\n`;
+            message += `Cliente: ${customerName}\n`;
+            message += `Dirección: ${customerAddress}\n`;
+            message += `Teléfono: ${customerPhone}\n\n`;
+            message += `Detalles del pedido:\n`;
+            
+            cartItems.forEach((item) => {
+                // Extraer el tipo de producto y color del nombre
+                let productType = item.name;
+                let color = item.color || 'N/A';
+                
+                // Formatear el nombre del producto para que se vea mejor
+                if (productType.includes('Personalizada')) {
+                    // Para productos personalizados, usar el tipo del item
+                    let personalizadaType = item.type;
+                    // Convertir valores del select a nombres legibles
+                    if (personalizadaType === 'lisa') {
+                        productType = 'Personalizada - Playera Lisa';
+                    } else if (personalizadaType === 'oversize') {
+                        productType = 'Personalizada - T-shirt Oversize';
+                    } else if (personalizadaType === 'boxfit') {
+                        productType = 'Personalizada - T-shirt Boxfit';
+                    } else if (personalizadaType === 'hoodie_con_capucha') {
+                        productType = 'Personalizada - Hoodie con Capucha';
+                    } else if (personalizadaType === 'hoodie_sin_capucha') {
+                        productType = 'Personalizada - Hoodie sin Capucha';
+                    }
+                } else if (productType.includes('Playera Lisa')) {
+                    productType = 'Playera Lisa';
+                } else if (productType.includes('T-shirt Oversize')) {
+                    productType = 'T-shirt Oversize';
+                } else if (productType.includes('T-shirt Boxfit')) {
+                    productType = 'T-shirt Boxfit';
+                } else if (productType.includes('Hoodie con Capucha')) {
+                    productType = 'Hoodie con Capucha';
+                } else if (productType.includes('Hoodie sin Capucha')) {
+                    productType = 'Hoodie sin Capucha';
+                }
+                
+                message += `- ${productType}, Color: ${color}, Talla: ${item.size}, Cantidad: ${item.quantity}, Precio: Q${item.total} c/u\n`;
+            });
+            
+            message += `\nSubtotal: Q${subtotal}\n`;
+            message += `Envío: Q${shipping}\n`;
+            message += `Total: Q${total}\n\n`;
+            message += `Gracias por tu pedido, te contactaremos pronto para coordinar la entrega.`;
+            
+            // Abrir WhatsApp
+            const whatsappUrl = `https://wa.me/50257326695?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+            
+            // Cerrar modales
+            document.getElementById('customerDataModal').style.display = 'none';
+            document.getElementById('shoppingCartModal').style.display = 'none';
+            
+            // Limpiar carrito
+            cartItems = [];
+            updateCartDisplay();
+            updateCartBadge();
+            saveCartToLocalStorage();
+            
+            // Limpiar formulario
+            document.getElementById('customerDataForm').reset();
+        };
+
+        // Event listener para el formulario de datos del cliente
+        document.addEventListener('DOMContentLoaded', function() {
+            const customerDataForm = document.getElementById('customerDataForm');
+            if (customerDataForm) {
+                customerDataForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    processOrderWithCustomerData();
+                });
+            }
         });
     </script>
 <style>
