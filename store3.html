@@ -19,6 +19,24 @@
             font-weight: normal;
             font-style: normal;
         }
+        
+        .playera-card {
+            height: 520px;
+        }
+        
+        .playera-image {
+            height: 440px;
+        }
+        
+        body {
+            overflow: hidden;
+        }
+        
+        .playera-image img {
+            height: 100%;
+            object-fit: cover;
+        }
+        
     </style>
     <script>
         // Redirigir automáticamente al index.html cuando se recarga la página
@@ -86,10 +104,10 @@
                         </span>
                         <ul class="category-submenu" id="personalizeSubmenu">
                             <li><a href="store3.html" onclick="closeMobileMenu()">Personalizar</a></li>
-                            <li><a href="store3.html#futbol" onclick="closeMobileMenu()">Fútbol</a></li>
-                            <li><a href="store3.html#basquetbol" onclick="closeMobileMenu()">Básquetbol</a></li>
-                            <li><a href="store3.html#anime" onclick="closeMobileMenu()">Anime</a></li>
-                            <li><a href="store3.html#artistas" onclick="closeMobileMenu()">Artistas</a></li>
+                            <li><a href="futbol.html" onclick="closeMobileMenu()">Fútbol</a></li>
+                            <li><a href="basquetbol.html" onclick="closeMobileMenu()">Básquetbol</a></li>
+                            <li><a href="anime.html" onclick="closeMobileMenu()">Anime</a></li>
+                            <li><a href="artistas.html" onclick="closeMobileMenu()">Artistas</a></li>
                         </ul>
                     </li>
                     <li><a href="store2.html" onclick="closeMobileMenu()">Todos los artículos</a></li>
@@ -121,7 +139,6 @@
                     <i class="fas fa-arrow-left"></i>
                     <span>Atrás</span>
                 </div>
-                <h2>Personaliza Tu Prenda</h2>
             </div>
             <div class="products-count">
                 <span></span>
@@ -148,141 +165,9 @@
         </div>
     </section>
 
-    <!-- Fútbol Section -->
-    <section class="playeras-section" id="futbol">
-        <div class="container">
-            <div class="section-header">
-                <div class="back-arrow" onclick="window.location.href='store.html'">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Atrás</span>
-                </div>
-                <h2>Fútbol</h2>
-            </div>
-            <div class="products-count">
-                <span></span>
-            </div>
-            <!-- Carrusel de Playeras -->
-            <div class="carousel-container">
-                <button class="carousel-arrow left" onclick="prevSlide()">‹</button>
-                <button class="carousel-arrow right" onclick="nextSlide()">›</button>
-                </div>
 
-                <div class="playera-card" onclick="openFutbolOverlay()">
-                    <div class="playera-image">
-                        <img src="./images/personalizadas/futbol/futbol1.jpg" alt="Fútbol">
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openFutbolOverlay()">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4 style="text-align: center;">FÚTBOL</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <!-- Básquetbol Section -->
-    <section class="playeras-section" id="basquetbol">
-        <div class="container">
-            <div class="section-header">
-                <div class="back-arrow" onclick="window.location.href='store.html'">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Atrás</span>
-                </div>
-                <h2>Básquetbol</h2>
-            </div>
-            <div class="products-count">
-                <span></span>
-            </div>
-            <!-- Carrusel de Playeras -->
-            <div class="carousel-container">
-                <button class="carousel-arrow left" onclick="prevSlide()">‹</button>
-                <button class="carousel-arrow right" onclick="nextSlide()">›</button>
-                </div>
 
-                <div class="playera-card" onclick="openBasqueOverlay()">
-                    <div class="playera-image">
-                        <img src="./images/personalizadas/basque/basquet1.jpg" alt="Básquetbol">
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openBasqueOverlay()">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4 style="text-align: center;">BÁSQUETBOL</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Anime Section -->
-    <section class="playeras-section" id="anime">
-        <div class="container">
-            <div class="section-header">
-                <div class="back-arrow" onclick="window.location.href='store.html'">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Atrás</span>
-                </div>
-                <h2>Anime</h2>
-            </div>
-            <div class="products-count">
-                <span></span>
-            </div>
-            <!-- Carrusel de Playeras -->
-            <div class="carousel-container">
-                <button class="carousel-arrow left" onclick="prevSlide()">‹</button>
-                <button class="carousel-arrow right" onclick="nextSlide()">›</button>
-                </div>
-
-                <div class="playera-card" onclick="openAnimeOverlay()">
-                    <div class="playera-image">
-                        <img src="./images/personalizadas/anime/anime1.jpg" alt="Anime">
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openAnimeOverlay()">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4 style="text-align: center;">ANIME</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Artistas Section -->
-    <section class="playeras-section" id="artistas">
-        <div class="container">
-            <div class="section-header">
-                <div class="back-arrow" onclick="window.location.href='store.html'">
-                    <i class="fas fa-arrow-left"></i>
-                    <span>Atrás</span>
-                </div>
-                <h2>Artistas</h2>
-            </div>
-            <div class="products-count">
-                <span></span>
-            </div>
-            <!-- Carrusel de Playeras -->
-            <div class="carousel-container">
-                <button class="carousel-arrow left" onclick="prevSlide()">‹</button>
-                <button class="carousel-arrow right" onclick="nextSlide()">›</button>
-                </div>
-
-                <div class="playera-card" onclick="openArtistasOverlay()">
-                    <div class="playera-image">
-                        <img src="./images/personalizadas/artistas/artistas1.jpg" alt="Artistas">
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openArtistasOverlay()">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4 style="text-align: center;">ARTISTAS</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
         
         <style>
             .personalized-notice {

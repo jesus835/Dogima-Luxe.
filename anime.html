@@ -86,10 +86,10 @@
                         </span>
                         <ul class="category-submenu" id="personalizeSubmenu">
                             <li><a href="store3.html" onclick="closeMobileMenu()">Personalizar</a></li>
-                            <li><a href="store3.html#futbol" onclick="closeMobileMenu()">Fútbol</a></li>
-                            <li><a href="store3.html#basquetbol" onclick="closeMobileMenu()">Básquetbol</a></li>
-                            <li><a href="store3.html#anime" onclick="closeMobileMenu()">Anime</a></li>
-                            <li><a href="store3.html#artistas" onclick="closeMobileMenu()">Artistas</a></li>
+                            <li><a href="futbol.html" onclick="closeMobileMenu()">Fútbol</a></li>
+                            <li><a href="basquetbol.html" onclick="closeMobileMenu()">Básquetbol</a></li>
+                            <li><a href="anime.html" onclick="closeMobileMenu()">Anime</a></li>
+                            <li><a href="artistas.html" onclick="closeMobileMenu()">Artistas</a></li>
                         </ul>
                     </li>
                     <li><a href="store2.html" onclick="closeMobileMenu()">Todos los artículos</a></li>
@@ -121,94 +121,195 @@
                     <i class="fas fa-arrow-left"></i>
                     <span>Atrás</span>
                 </div>
-                <h2>Todos los productos</h2>
+                <h2>Diseños de Anime</h2>
             </div>
             <div class="products-count">
-                <span>20 productos</span>
+                <span id="animeProductsCount">Cargando productos...</span>
             </div>
-            <div class="playeras-grid">
-                <div class="playera-card" onclick="openProductOverlay('Blanco', 'blanco', 25)">
-                    <div class="playera-image">
-                        <img src="./images/camisas lisas/blanco.png" alt="Playera Blanca">
-                        <div class="star-badge">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openProductOverlay('Blanco', 'blanco', 25)">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4>COLOR BLANCO</h4>
-                        <div class="playera-price">Q25.00</div>
+            <div class="playeras-grid" id="animeGrid">
+                <!-- Los productos de anime se cargarán dinámicamente aquí -->
                     </div>
                 </div>
 
-                <div class="playera-card" onclick="openProductOverlay('Negro', 'negro', 25)">
-                    <div class="playera-image">
-                        <img src="./images/camisas lisas/negro.png" alt="Playera Negra">
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openProductOverlay('Negro', 'negro', 25)">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4>COLOR NEGRO</h4>
-                        <div class="playera-price">Q25.00</div>
-                    </div>
-                </div>
+        <style>
+            .store-page .playeras-section,
+            .store-page #playeras,
+            section.playeras-section,
+            section#playeras {
+                padding: 20px 0 !important;
+                background: white !important;
+                background-color: #ffffff !important;
+                min-height: 100vh !important;
+            }
+            
+            .section-header {
+                display: flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                margin-bottom: 30px !important;
+            }
+            
+            .back-arrow {
+                position: absolute !important;
+                left: 20px !important;
+                top: 50% !important;
+                transform: translateY(-50%) !important;
+                display: flex !important;
+                align-items: center !important;
+                gap: 8px !important;
+                color: #666 !important;
+                font-size: 14px !important;
+                cursor: pointer !important;
+                transform: translateY(-40%) !important;
+            }
+            
+            .store-page .playeras-section .section-header h2,
+            .store-page #playeras .section-header h2,
+            section.playeras-section .section-header h2,
+            section#playeras .section-header h2 {
+                font-size: 18px !important;
+                font-weight: normal !important;
+                color: #000 !important;
+                margin: 0 !important;
+            }
+            
+            .products-count {
+                color: #999;
+                font-size: 14px;
+                margin-bottom: 30px;
+            }
+            
+            .playeras-grid {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                gap: 15px;
+                margin: 0 auto;
+            }
+            
+            .playera-card {
+                background: white;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+                cursor: pointer;
+            }
+            
+            .playera-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            }
+            
+            .playera-image {
+                position: relative;
+                overflow: hidden;
+                height: 200px;
+            }
+            
+            .playera-image img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.3s ease;
+            }
+            
+            .playera-card:hover .playera-image img {
+                transform: scale(1.05);
+            }
+            
+            .star-badge {
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                background: #ffd700;
+                color: white;
+                padding: 5px 8px;
+                border-radius: 50%;
+                font-size: 12px;
+            }
+            
+            .cart-icon-btn {
+                position: absolute;
+                bottom: 10px;
+                right: 10px;
+                background: rgba(0,0,0,0.7);
+                color: white;
+                padding: 8px;
+                border-radius: 50%;
+                cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            
+            .playera-card:hover .cart-icon-btn {
+                opacity: 1;
+            }
+            
+            .playera-info {
+                padding: 15px;
+                text-align: center;
+            }
+            
+            .playera-info h4 {
+                font-size: 14px;
+                font-weight: bold;
+                color: #000;
+                margin: 0 0 8px 0;
+            }
+            
+            .playera-price {
+                font-size: 16px;
+                font-weight: bold;
+                color: #000;
+            }
+            
+            @media (max-width: 768px) {
+                .store-page .playeras-section,
+                .store-page #playeras,
+                section.playeras-section,
+                section#playeras {
+                    background: white !important;
+                    background-color: #ffffff !important;
+                    padding: 15px 0 !important;
+                }
+                
+                .store-page .playeras-section .section-header h2,
+                .store-page #playeras .section-header h2,
+                section.playeras-section .section-header h2,
+                section#playeras .section-header h2 {
+                    color: #000 !important;
+                }
+                
+                .playeras-grid {
+                    grid-template-columns: repeat(2, 1fr) !important;
+                    max-width: 100%;
+                    margin: 0;
+                    gap: 15px;
+                }
+                
+                .playera-card {
+                    border-radius: 12px;
+                }
+                
+                .playera-info h4 {
+                    font-size: 13px;
+                }
+                
+                .playera-price {
+                    font-size: 15px;
+                }
+            }
+        </style>
 
-                <div class="playera-card" onclick="openProductOverlay('Celeste', 'celesteclaro', 25)">
-                    <div class="playera-image">
-                        <img src="./images/camisas lisas/celesteclaro.png" alt="Playera Celeste">
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openProductOverlay('Celeste', 'celesteclaro', 25)">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4>COLOR CELESTE</h4>
-                        <div class="playera-price">Q25.00</div>
-                    </div>
-                </div>
-
-                <div class="playera-card" onclick="openProductOverlay('Rojo', 'rojo', 25)">
-                    <div class="playera-image">
-                        <img src="./images/camisas lisas/rojo.png" alt="Playera Roja">
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openProductOverlay('Rojo', 'rojo', 25)">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4>COLOR ROJO</h4>
-                        <div class="playera-price">Q25.00</div>
-                    </div>
-                </div>
-
-                <div class="playera-card" onclick="openProductOverlay('Celeste', 'celeste', 25)">
-                    <div class="playera-image">
-                        <img src="./images/camisas lisas/celeste.png" alt="Playera Celeste">
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openProductOverlay('Celeste', 'celeste', 25)">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4>COLOR CELESTE</h4>
-                        <div class="playera-price">Q25.00</div>
-                    </div>
-                </div>
-
-                <div class="playera-card" onclick="openProductOverlay('Gris', 'gris', 25)">
-                    <div class="playera-image">
-                        <img src="./images/camisas lisas/gris.png" alt="Playera Gris">
-                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openProductOverlay('Gris', 'gris', 25)">
-                            <i class="fas fa-shopping-cart"></i>
-                        </div>
-                    </div>
-                    <div class="playera-info">
-                        <h4>COLOR GRIS</h4>
-                        <div class="playera-price">Q25.00</div>
-                    </div>
-                </div>
-
-                <div class="playera-card" onclick="openProductOverlay('Azul', 'azul', 25)">
+    <!-- Modal del Carrito -->
+    <div id="cartModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeCartModal()">&times;</span>
+            <div class="modal-product">
+                <img id="modalProductImage" src="" alt="Producto">
+                <div class="modal-details">
+                    <h3 id="modalProductName"></h3>
+                    <p id="modalProductInfo"></p>
                     <div class="playera-image">
                         <img src="./images/camisas lisas/azul.png" alt="Playera Azul">
                         <div class="cart-icon-btn" onclick="event.stopPropagation(); openProductOverlay('Azul', 'azul', 25)">
@@ -725,7 +826,7 @@
                 flex: 1;
                 padding-top: 60px;
                 padding-bottom: 100px;
-                overflow: hidden;
+                overflow-y: auto;
                 display: flex;
                 flex-direction: column;
             }
@@ -1112,6 +1213,10 @@
                     <span id="cartSubtotal">Q0</span>
                 </div>
                 <div class="summary-row">
+                    <span>Envío:</span>
+                    <span id="cartShipping">Q30</span>
+                </div>
+                <div class="summary-row">
                     <span>Total de productos:</span>
                     <span id="cartTotalItems">0</span>
                 </div>
@@ -1184,6 +1289,114 @@
             <div class="zoom-image-info">
                 <h3 id="zoomProductName"></h3>
                 <p id="zoomProductDetails"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay específico para Anime -->
+    <div id="animeOverlay" class="product-overlay" style="display: none;">
+        <div class="overlay-header">
+            <button class="back-btn" onclick="closeAnimeOverlay()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+        
+        <div class="overlay-content">
+            <div class="product-image-section">
+                <div class="image-card">
+                    <div class="image-container">
+                        <img id="animeProductImage" src="./images/personalizadas/anime/anime1.jpg" alt="Anime Personalizado" onclick="console.log('Image clicked!'); openImageZoomModal('ANIME', 'Personaliza tu playera de anime con diseños únicos.', this.src)" onwheel="handlePersonalizedImageZoom(event)" onmousedown="startPersonalizedImageDrag(event)" onmousemove="dragPersonalizedImage(event)" onmouseup="endPersonalizedImageDrag(event)" onmouseleave="endPersonalizedImageDrag(event)" ontouchstart="handlePersonalizedTouchStart(event)" ontouchmove="handlePersonalizedTouchMove(event)" ontouchend="handlePersonalizedTouchEnd(event)" ondragstart="return false" title="Haz clic para ver imagen más grande" style="cursor: pointer; transform-origin: center; transition: transform 0.1s; touch-action: none;">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="product-info-section">
+                <div class="product-sku">GENERAL</div>
+                <div class="product-title">PERSONALIZADO</div>
+                
+                <div class="description-section">
+                    <div class="description-header">
+                        <span>Descripción</span>
+                        <i class="fas fa-minus"></i>
+                    </div>
+                    <div class="description-text">
+                        Personaliza tu playera de anime con diseños únicos. Elige el tipo de playera, color, talla y agrega tu diseño personalizado.
+                    </div>
+                </div>
+                
+                <div class="specification-section">
+                    <div class="spec-header">
+                        <span>Especificaciones</span>
+                        <i class="fas fa-minus"></i>
+                    </div>
+                    <div class="spec-content">
+                        <div class="spec-item">
+                            <span>Tipo de Playera:</span>
+                            <select id="animeTypeSelect" onchange="updateAnimeColors(); updateAnimePrice();">
+                                <option value="lisa">Playera Lisa</option>
+                                <option value="oversize">T-shirt Oversize</option>
+                                <option value="boxfit">T-shirt Boxfit</option>
+                                <option value="hoodie_con_capucha">Hoodie con Capucha</option>
+                                <option value="hoodie_sin_capucha">Hoodie sin Capucha</option>
+                            </select>
+                        </div>
+                        <div class="spec-item">
+                            <span>Color:</span>
+                            <select id="animeColorSelect">
+                                <option value="blanco">Blanco</option>
+                                <option value="negro">Negro</option>
+                                <option value="celeste">Celeste</option>
+                                <option value="rojo">Rojo</option>
+                                <option value="verde">Verde</option>
+                                <option value="gris">Gris</option>
+                                <option value="azul">Azul</option>
+                                <option value="amarillo">Amarillo</option>
+                                <option value="naranja">Naranja</option>
+                                <option value="corinto">Corinto</option>
+                                <option value="fucsia">Fucsia</option>
+                                <option value="verdemilitar">Verde Militar</option>
+                            </select>
+                        </div>
+                        <div class="spec-item">
+                            <span>Talla:</span>
+                            <select id="animeSizeSelect">
+                                <option value="S">S</option>
+                                <option value="M" selected="">M</option>
+                                <option value="L">L</option>
+                                <option value="XL">XL</option>
+                            </select>
+                        </div>
+                        <div class="spec-item">
+                            <span>Tipo de Hilo:</span>
+                            <select id="animeThreadSelect" disabled="">
+                                <option value="hilo22">Hilo 22 - Q75</option>
+                                <option value="hilo20">Hilo 20 - Q110</option>
+                            </select>
+                        </div>
+                        <div class="spec-item">
+                            <span>Cantidad:</span>
+                            <div class="quantity-controls">
+                                <button onclick="decreaseAnimeQuantity()">-</button>
+                                <input type="number" id="animeQuantityInput" value="1" min="1" max="50" onchange="updateAnimePrice()">
+                                <button onclick="increaseAnimeQuantity()">+</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="overlay-footer">
+            <div class="price-section">
+                <div class="price-value">Total: <span id="animeTotalPrice">Q75</span></div>
+            </div>
+            <div class="action-buttons">
+                <button class="wishlist-btn">
+                    <i class="far fa-heart"></i>
+                </button>
+                <button class="add-to-cart-btn" onclick="addAnimeToCart()">
+                    PERSONALIZAR
+                </button>
             </div>
         </div>
     </div>
@@ -1530,89 +1743,442 @@
             document.querySelector(`#boxfit-tabs .tab-btn[onclick*="${category}"]`).classList.add('active');
         }
 
-        // Popular: elegir 3 productos al azar de todas las categorías
-        function populatePopular() {
-            const allItems = [];
-            // Playeras lisas (Q25)
-            const lisas = [
-                { name: 'Negro', id: 'negro', price: 25, display: 'Negro' },
-                { name: 'Blanco', id: 'blanco', price: 25, display: 'Blanco' },
-                { name: 'Azul', id: 'azul', price: 25, display: 'Azul' },
-                { name: 'Gris', id: 'gris', price: 25, display: 'Gris' },
-                { name: 'Rojo', id: 'rojo', price: 25, display: 'Rojo' },
-                { name: 'Amarillo', id: 'amarillo', price: 25, display: 'Amarillo' },
-                { name: 'Verde', id: 'verde', price: 25, display: 'Verde' }
-            ];
-            lisas.forEach(c => allItems.push({ productName: c.name, imageId: c.id, price: c.price, display: c.display }));
 
-            // Oversize (Q45)
-            const oversize = [
-                { name: 'Blanco Oversize', id: 'blanco', price: 45, display: 'Blanco (Oversize)' },
-                { name: 'Negro Oversize', id: 'negro', price: 45, display: 'Negro (Oversize)' },
-                { name: 'Azul Oversize', id: 'azul', price: 45, display: 'Azul (Oversize)' }
-            ];
-            oversize.forEach(c => allItems.push({ productName: c.name, imageId: c.id, price: c.price, display: c.display }));
 
-            // Boxfit (Q45)
-            const boxfit = [
-                { name: 'Blanco Boxfit', id: 'blanco', price: 45, display: 'Blanco (Boxfit)' },
-                { name: 'Negro Boxfit', id: 'negro', price: 45, display: 'Negro (Boxfit)' },
-                { name: 'Azul Boxfit', id: 'azul', price: 45, display: 'Azul (Boxfit)' }
-            ];
-            boxfit.forEach(c => allItems.push({ productName: c.name, imageId: c.id, price: c.price, display: c.display }));
+        // Funciones simples para evitar errores
+        function updateOrdersBadge() {
+            // Función vacía para evitar errores de referencia
+        }
+        
+        function filterOversizeProducts(category, sectionId) {
+            // Función vacía para evitar errores de referencia
+        }
+        
+        function filterBoxfitProducts(category, sectionId) {
+            // Función vacía para evitar errores de referencia
+        }
+        
+        function showProductCards() {
+            // Función vacía para evitar errores de referencia
+        }
 
-            // Mezclar y tomar 3
-            const shuffled = allItems.sort(() => Math.random() - 0.5).slice(0, 3);
-            const grid = document.getElementById('popularGrid');
-            grid.innerHTML = '';
-            shuffled.forEach(item => {
+        // Función para detectar y cargar productos de anime dinámicamente
+        function loadAnimeProducts() {
+            const animeGrid = document.getElementById('animeGrid');
+            const productsCount = document.getElementById('animeProductsCount');
+            
+            if (!animeGrid) return;
+            
+            // Lista de imágenes de anime disponibles (puedes agregar más)
+            const animeImages = [
+                'anime1.jpg', 'anime2.jpg', 'anime3.jpg', 'anime4.jpg', 
+                'anime5.jpg', 'anime6.jpg', 'anime7.jpg', 'anime8.jpg',
+                'anime9.jpg', 'anime10.jpg', 'anime11.jpg', 'anime12.jpg',
+                'anime13.jpg', 'anime14.jpg', 'anime15.jpg', 'anime16.jpg'
+            ];
+            
+            let loadedProducts = 0;
+            let validProducts = [];
+            
+            // Verificar qué imágenes existen
+            animeImages.forEach((imageName, index) => {
+                const img = new Image();
+                img.onload = function() {
+                    validProducts.push({
+                        name: `Anime Diseño ${index + 1}`,
+                        image: imageName,
+                        id: `anime${index + 1}`,
+                        price: 35
+                    });
+                    loadedProducts++;
+                    
+                    // Si es la última imagen, crear todos los productos
+                    if (loadedProducts === animeImages.length) {
+                        createAnimeProducts(validProducts);
+                    }
+                };
+                img.onerror = function() {
+                    loadedProducts++;
+                    // Si es la última imagen, crear todos los productos
+                    if (loadedProducts === animeImages.length) {
+                        createAnimeProducts(validProducts);
+                    }
+                };
+                img.src = `./images/personalizadas/anime/${imageName}`;
+            });
+        }
+        
+        // Función para crear los productos de anime
+        function createAnimeProducts(products) {
+            const animeGrid = document.getElementById('animeGrid');
+            const productsCount = document.getElementById('animeProductsCount');
+            
+            if (!animeGrid || !productsCount) return;
+            
+            // Limpiar el grid
+            animeGrid.innerHTML = '';
+            
+            // Crear cada producto
+            products.forEach((product, index) => {
                 const card = document.createElement('div');
-                card.className = 'popular-card';
-                card.onclick = () => openProductOverlay(item.productName, item.imageId, item.price);
+                card.className = 'playera-card';
+                card.setAttribute('onclick', `openAnimeOverlay('${product.id}')`);
+                
+                const isFirstProduct = index === 0;
+                
                 card.innerHTML = `
-                    <img src="./images/camisas lisas/${item.imageId}.png" alt="${item.display}">
-                    <div class="popular-info">
-                        <span class="popular-name">${item.display}</span>
-                        <span class="popular-price">Q${item.price}</span>
+                    <div class="playera-image">
+                        <img src="./images/personalizadas/anime/${product.image}" alt="${product.name}">
+                        ${isFirstProduct ? '<div class="star-badge"><i class="fas fa-star"></i></div>' : ''}
+                        <div class="cart-icon-btn" onclick="event.stopPropagation(); openAnimeOverlay('${product.id}')">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                    <div class="playera-info">
+                        <h4>${product.name.toUpperCase()}</h4>
                     </div>
                 `;
-                grid.appendChild(card);
+                
+                animeGrid.appendChild(card);
             });
+            
+            // Actualizar contador
+            productsCount.textContent = `${products.length} productos`;
+        }
+
+        // Funciones para el overlay de anime
+        function openAnimeOverlay(animeId) {
+            document.getElementById('animeOverlay').style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            updateAnimeImage(animeId);
+        }
+        
+        function closeAnimeOverlay() {
+            document.getElementById('animeOverlay').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+        
+        function updateAnimeImage(animeId) {
+            const animeImage = document.getElementById('animeProductImage');
+            if (animeImage) {
+                animeImage.src = `./images/personalizadas/anime/${animeId}.jpg`;
+            }
+        }
+        
+        function updateAnimeColors() {
+            const typeSelect = document.getElementById('animeTypeSelect');
+            const colorSelect = document.getElementById('animeColorSelect');
+            const threadSelect = document.getElementById('animeThreadSelect');
+            
+            if (!typeSelect || !colorSelect || !threadSelect) return;
+            
+            const selectedType = typeSelect.value;
+            const currentColor = colorSelect.value;
+            
+            colorSelect.innerHTML = '';
+            
+            // Configurar thread según el tipo de playera
+            if (selectedType === 'lisa') {
+                threadSelect.value = 'hilo22';
+                threadSelect.disabled = true;
+            } else {
+                threadSelect.value = 'hilo20';
+                threadSelect.disabled = true;
+            }
+            
+            let availableColors = [];
+            if (selectedType === 'lisa') {
+                availableColors = [
+                    { value: 'blanco', text: 'Blanco' },
+                    { value: 'negro', text: 'Negro' },
+                    { value: 'celeste', text: 'Celeste' },
+                    { value: 'rojo', text: 'Rojo' },
+                    { value: 'verde', text: 'Verde' },
+                    { value: 'gris', text: 'Gris' },
+                    { value: 'azul', text: 'Azul' },
+                    { value: 'amarillo', text: 'Amarillo' },
+                    { value: 'naranja', text: 'Naranja' },
+                    { value: 'corinto', text: 'Corinto' },
+                    { value: 'fucsia', text: 'Fucsia' },
+                    { value: 'verdemilitar', text: 'Verde Militar' }
+                ];
+            } else if (selectedType === 'oversize') {
+                availableColors = [
+                    { value: 'blanco', text: 'Blanco' },
+                    { value: 'negro', text: 'Negro' },
+                    { value: 'beige', text: 'Beige' },
+                    { value: 'crema', text: 'Crema' }
+                ];
+            } else if (selectedType === 'boxfit') {
+                availableColors = [
+                    { value: 'blanco', text: 'Blanco' },
+                    { value: 'negro', text: 'Negro' },
+                    { value: 'beige', text: 'Beige' },
+                    { value: 'crema', text: 'Crema' }
+                ];
+            } else if (selectedType === 'hoodie_con_capucha' || selectedType === 'hoodie_sin_capucha') {
+                availableColors = [
+                    { value: 'blanco', text: 'Blanco' },
+                    { value: 'negro', text: 'Negro' },
+                    { value: 'gris', text: 'Gris' }
+                ];
+                threadSelect.disabled = true;
+            }
+            
+            availableColors.forEach(color => {
+                const option = document.createElement('option');
+                option.value = color.value;
+                option.textContent = color.text;
+                if (color.value === currentColor) {
+                    option.selected = true;
+                }
+                colorSelect.appendChild(option);
+            });
+            
+            updateAnimePrice();
+        }
+        
+        function increaseAnimeQuantity() {
+            const quantityInput = document.getElementById('animeQuantityInput');
+            if (quantityInput) {
+                const currentValue = parseInt(quantityInput.value) || 1;
+                if (currentValue < 50) {
+                    quantityInput.value = currentValue + 1;
+                    updateAnimePrice();
+                }
+            }
+        }
+        
+        function decreaseAnimeQuantity() {
+            const quantityInput = document.getElementById('animeQuantityInput');
+            if (quantityInput) {
+                const currentValue = parseInt(quantityInput.value) || 1;
+                if (currentValue > 1) {
+                    quantityInput.value = currentValue - 1;
+                    updateAnimePrice();
+                }
+            }
+        }
+        
+        function updateAnimePrice() {
+            const threadSelect = document.getElementById('animeThreadSelect');
+            const quantityInput = document.getElementById('animeQuantityInput');
+            const totalPriceElement = document.getElementById('animeTotalPrice');
+            
+            if (!threadSelect || !quantityInput || !totalPriceElement) return;
+            
+            let threadPrice = 0;
+            if (threadSelect.value === 'hilo22') {
+                threadPrice = 75;
+            } else if (threadSelect.value === 'hilo20') {
+                threadPrice = 110;
+            }
+            
+            const quantity = parseInt(quantityInput.value) || 1;
+            const total = threadPrice * quantity;
+            
+            totalPriceElement.textContent = `Q${total}`;
+        }
+        
+        function addAnimeToCart() {
+            const typeSelect = document.getElementById('animeTypeSelect');
+            const colorSelect = document.getElementById('animeColorSelect');
+            const sizeSelect = document.getElementById('animeSizeSelect');
+            const threadSelect = document.getElementById('animeThreadSelect');
+            const quantityInput = document.getElementById('animeQuantityInput');
+            
+            if (!typeSelect || !colorSelect || !sizeSelect || !threadSelect || !quantityInput) return;
+            
+            const productType = typeSelect.value;
+            const color = colorSelect.value;
+            const size = sizeSelect.value;
+            const thread = threadSelect.value;
+            const quantity = parseInt(quantityInput.value) || 1;
+            
+            let threadPrice = 0;
+            if (thread === 'hilo22') {
+                threadPrice = 75;
+            } else if (thread === 'hilo20') {
+                threadPrice = 110;
+            }
+            
+            const total = threadPrice * quantity;
+            
+            const cartItem = {
+                id: `anime_${Date.now()}`,
+                name: `Anime Personalizada - ${color}`,
+                type: productType,
+                color: color,
+                size: size,
+                thread: thread,
+                quantity: quantity,
+                price: threadPrice,
+                total: total,
+                isPersonalized: true,
+                category: 'anime'
+            };
+            
+            console.log('Adding to cart:', cartItem);
+            cartItems.push(cartItem);
+            console.log('Cart items:', cartItems);
+            
+            try {
+                saveCartToLocalStorage();
+                updateCartBadge();
+                updateCartDisplay();
+                console.log('Cart functions completed, closing overlay');
+                closeAnimeOverlay();
+            } catch (error) {
+                console.error('Error in cart functions:', error);
+                // Cerrar overlay aunque haya error
+                closeAnimeOverlay();
+            }
+        }
+
+        function openCart() {
+            console.log('Opening cart modal');
+            updateCartDisplay();
+            const shoppingCartModal = document.getElementById('shoppingCartModal');
+            if (shoppingCartModal) {
+                shoppingCartModal.style.display = 'block';
+            } else {
+                console.error('Shopping cart modal not found');
+            }
+        }
+
+        function closeCart() {
+            const shoppingCartModal = document.getElementById('shoppingCartModal');
+            if (shoppingCartModal) {
+                shoppingCartModal.style.display = 'none';
+            }
+        }
+
+        // Función para abrir el modal de zoom de imagen
+        function openImageZoomModal(productType, description, imageSrc) {
+            console.log('openImageZoomModal called with:', productType, description, imageSrc);
+            
+            const modal = document.getElementById('imageZoomModal');
+            const zoomImage = document.getElementById('zoomImage');
+            const zoomProductName = document.getElementById('zoomProductName');
+            const zoomProductDetails = document.getElementById('zoomProductDetails');
+            
+            console.log('Modal elements found:', { modal, zoomImage, zoomProductName, zoomProductDetails });
+            
+            if (modal && zoomImage && zoomProductName && zoomProductDetails) {
+                zoomImage.src = imageSrc;
+                zoomImage.alt = `Imagen del producto ${productType}`;
+                zoomProductName.textContent = productType;
+                zoomProductDetails.textContent = description;
+                
+                modal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+                console.log('Modal should be visible now');
+            } else {
+                console.error('Some modal elements not found');
+            }
+        }
+
+        // Función para cerrar el modal de zoom
+        function closeImageZoomModal() {
+            const modal = document.getElementById('imageZoomModal');
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Variables para el arrastre de imagen en el overlay
+        let isDraggingOverlay = false;
+        let startXOverlay = 0;
+        let startYOverlay = 0;
+        let currentXOverlay = 0;
+        let currentYOverlay = 0;
+        let currentScaleOverlay = 1;
+
+        function startPersonalizedImageDrag(event) {
+            isDraggingOverlay = true;
+            startXOverlay = event.clientX - currentXOverlay;
+            startYOverlay = event.clientY - currentYOverlay;
+            event.preventDefault();
+        }
+
+        function dragPersonalizedImage(event) {
+            if (!isDraggingOverlay) return;
+            
+            currentXOverlay = event.clientX - startXOverlay;
+            currentYOverlay = event.clientY - startYOverlay;
+            
+            const img = event.target;
+            img.style.transform = `translate(${currentXOverlay}px, ${currentYOverlay}px) scale(${currentScaleOverlay})`;
+        }
+
+        function endPersonalizedImageDrag(event) {
+            isDraggingOverlay = false;
+        }
+
+        function handlePersonalizedImageZoom(event) {
+            event.preventDefault();
+            
+            const img = event.target;
+            const delta = event.deltaY > 0 ? -0.1 : 0.1;
+            currentScaleOverlay = Math.max(0.5, Math.min(3, currentScaleOverlay + delta));
+            
+            img.style.transform = `translate(${currentXOverlay}px, ${currentYOverlay}px) scale(${currentScaleOverlay})`;
+        }
+
+        // Variables para manejar touch del overlay
+        let overlayTouchStartTime = 0;
+        let overlayTouchStartX = 0;
+        let overlayTouchStartY = 0;
+        let overlayTouchMoved = false;
+
+        function handlePersonalizedTouchStart(event) {
+            if (event.touches.length === 1) {
+                overlayTouchStartTime = Date.now();
+                overlayTouchStartX = event.touches[0].clientX;
+                overlayTouchStartY = event.touches[0].clientY;
+                overlayTouchMoved = false;
+            }
+        }
+
+        function handlePersonalizedTouchMove(event) {
+            if (event.touches.length === 1) {
+                const currentX = event.touches[0].clientX;
+                const currentY = event.touches[0].clientY;
+                const deltaX = Math.abs(currentX - overlayTouchStartX);
+                const deltaY = Math.abs(currentY - overlayTouchStartY);
+                
+                // Si se movió más de 10px, considerarlo como arrastre
+                if (deltaX > 10 || deltaY > 10) {
+                    overlayTouchMoved = true;
+                    dragPersonalizedImage({
+                        clientX: currentX,
+                        clientY: currentY,
+                        target: event.target
+                    });
+                }
+            }
+        }
+
+        function handlePersonalizedTouchEnd(event) {
+            const touchDuration = Date.now() - overlayTouchStartTime;
+            
+            // Si fue un toque rápido (menos de 500ms) y no se movió mucho, es un clic
+            if (touchDuration < 500 && !overlayTouchMoved) {
+                // Permitir que el onclick se ejecute
+                console.log('Touch click detected');
+                return;
+            }
+            
+            endPersonalizedImageDrag(event);
         }
 
         document.addEventListener('DOMContentLoaded', function() {
             updateOrdersBadge();
-            // Poblar sección Popular
-            populatePopular();
+            // Cargar productos de anime dinámicamente
+            loadAnimeProducts();
         });
         
-        // Función para mostrar las tarjetas de productos con animación
-        function showProductCards() {
-            // Primero hacer visible los grids agregando la clase 'ready'
-            const productsGrids = document.querySelectorAll('.products-grid');
-            productsGrids.forEach(grid => {
-                grid.classList.add('ready');
-            });
-            
-            // Luego animar las tarjetas
-            const productItems = document.querySelectorAll('.product-item');
-            productItems.forEach((item, index) => {
-                setTimeout(() => {
-                    item.style.opacity = '1';
-                    item.style.transform = 'translateY(0px)';
-                }, index * 100); // Retraso escalonado para cada tarjeta
-            });
-        }
-        
-        // Ejecutar cuando el DOM esté listo
-        document.addEventListener('DOMContentLoaded', function() {
-            showProductCards();
-        });
-        
-        // También ejecutar cuando la página esté completamente cargada
-        window.addEventListener('load', function() {
-            showProductCards();
-        });
     </script>
     
     <script>
@@ -2475,5 +3041,10 @@
             });
         });
     </script>
+<style>
+    * { -webkit-tap-highlight-color: transparent; }
+    a, button, select, input, textarea { outline: none !important; }
+    a:focus, button:focus, select:focus, input:focus, textarea:focus { outline: none !important; box-shadow: none !important; }
+</style>
 </body>
 </html>
